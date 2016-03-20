@@ -1,0 +1,109 @@
+/*
+* CyT 20162016
+* Copyright 2016, Tomas Cornelles
+* www.tomascornelles.com
+* 2016/03/17
+*/
+
+
+/* Table of contents
+––––––––––––––––––––––––––––––––––––––––––––––––––
+- More utilities
+- Generic Styles
+- Media Queries
+*/
+
+/* –––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+
+/* More utilities */
+.u-text-center {
+  text-align: center;
+}
+
+/* Generic styles */
+
+body {
+  background: #FFE2B3;
+/*   background: url(https://upload.wikimedia.org/wikipedia/commons/2/2f/Rutes_Hist%C3%B2riques_a_Horta-Guinard%C3%B3-can_cortada_04.jpg);
+  background-size: cover; */
+}
+.Page {
+  display: none;
+}
+/* Home */
+.Home {
+  background:rgba(253, 227, 167, .9);
+}
+.Home .row {
+  min-height: 100vh;
+  display: flex;
+}
+.Home .column {
+  align-self: center;
+}
+
+/* Mapa */
+.Mapa .Mapa-mapa {
+  height:100vh;
+  position: relative;
+}
+.Mapa .Mapa-info {
+  min-height:100vh;
+}
+.Mapa-info-interior {
+  padding:3rem;
+}
+.Mapa-overlay {
+  position: absolute;
+  width:100%;
+  height:100vh;
+  top:0;
+}
+#map {
+  width:100%;
+  height:100vh;
+}
+
+/* Mobile first queries */
+
+/* Larger than mobile */
+@media (min-width: 400px) {}
+
+/* Larger than phablet */
+@media (min-width: 550px) {}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  
+  /* Mapa */
+  .Mapa .Mapa-mapa {
+    width: 50%;
+    height:100vh;
+    box-shadow: -2px -2px 5px rgba(0,0,0,.5);
+    z-index:10;
+    margin:0;
+    position:fixed;
+    top:0;
+    right:0;
+  }
+  .Mapa .Mapa-info {
+    height: 100vh;
+    margin:0;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+  }  
+  .Mapa-info-interior {
+    align-self:center;
+  }
+  .Mapa-overlay {
+    display:none;
+  }
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}

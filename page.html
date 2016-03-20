@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Basic</title>
+    <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
+    <base href="/boda/" >
+  </head>
+  <body>
+    <h1>Hashbang</h1>
+    <p></p>
+    <ul>
+      <li><a href="./">/</a></li>
+      <li><a href="#whoop">#whoop</a></li>
+      <li><a href="./about">/about</a></li>
+      <li><a href="./contact">/contact</a></li>
+      <li><a href="./contact/me">/contact/me</a></li>
+      <li><a href="./not-found?foo=bar">/not-found</a></li>
+    </ul>
+
+    <script>
+      page.base('/boda');
+      page('/', index);
+      page('/about', about);
+      page('/contact', contact);
+      page('/contact/:contactName', contact);
+      page({
+        hashbang:true
+      });
+
+      function index() {
+        document.querySelector('p')
+          .textContent = 'viewing index';
+      }
+
+      function about() {
+        document.querySelector('p')
+          .textContent = 'viewing about';
+      }
+
+      function contact(ctx) {
+        document.querySelector('p')
+          .textContent = 'viewing contact ' + (ctx.params.contactName || '');
+      }
+    </script>
+  </body>
+</html>

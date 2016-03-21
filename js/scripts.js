@@ -66,18 +66,38 @@ function initMap () {
     canWindow.open(map, canMarker)
   })
 }
+
 var datos
-function leerDatos (id, pass) {
-  var ref = new Firebase('https://boda201610.firebaseio.com/')
-  ref.child(id).on('value', function (snapshot) {
-    var usuario = snapshot.val()
-    if (usuario.pass === parseInt(pass)) {
-      datos = {
-        'nombre': usuario.nombre,
-      }
-    } 
-    console.log(typeof (localStorage.datos))
-  })
+function UsuarioCarga (id, pass) {
+  if (datos) {
+    UsuarioMostrar(datos)
+  } else {
+    var ref = new Firebase('https://boda201610.firebaseio.com/')
+    ref.child(id).on('value', function (snapshot) {
+      var usuario = snapshot.val()
+      if (usuario.pass === parseInt(pass)) {
+        datos = {
+          'nombre': usuario.nombre,
+          'email': usuario.email,
+          'adultos': usuario.adultos,
+          'ninos': usuario.ninos,
+          'alergias': usuario.alergias
+        }
+        UsuarioMostrar(datos)
+      } 
+    })
+  }
+}
+
+function UsuarioMostrar(datos) {
+  $('.Usuario-nombre').text(datos.nombre)
+  $('.Usuario-email').text(datos.email)
+  $('.Usuario-adultos').text(datos.adultos)
+  $('.Usuario-ninos').text(datos.ninos)
+  $('.Usuario-alergias').text(datos.alergias)
+
+  $('.Usuario--cargando').hide();
+  $('.Usuario-contenido').fadeIn();
 }
 
 /* Routing */
@@ -94,12 +114,11 @@ function Mapa () {
   initMap()
 }
 function Usuario (ctx) {
-  if (datos) {
-    $('.Usuario-nombre').text(datos.nombre)
-  } else {
-    leerDatos(ctx.params.id, ctx.params.pass)
-  }
+  UsuarioCarga(ctx.params.id, ctx.params.pass)
+  
   cleanPage()
+  $('.Usuario-contenido').hide()
+  $('.Usuario--cargando').show()
   $('.Usuario').fadeIn(1000)
 }
 function Error404 () {
@@ -107,8 +126,8 @@ function Error404 () {
   $('.Error404').fadeIn(1000)
 }
 
+/* App ready to rock */
 $(function () {
-  $('.Home').fadeIn(1000)
   $(window).on('resize', function () {
     initMap()
   })

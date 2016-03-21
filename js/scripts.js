@@ -71,16 +71,12 @@ function leerDatos (id, pass) {
   var ref = new Firebase('https://boda201610.firebaseio.com/')
   ref.child(id).on('value', function (snapshot) {
     var usuario = snapshot.val()
-    if (usuario.pass == pass) {
-      for (var dato in usuario) {
-        console.log(usuario.dato)
-      }
+    if (usuario.pass === parseInt(pass)) {
       localStorage.datos = usuario
     } else {
       delete localStorage.datos
     }
   })
-
 }
 
 /* Routing */

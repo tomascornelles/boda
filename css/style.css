@@ -32,9 +32,6 @@ body {
   display: none;
 }
 /* Home */
-.Home {
-  background:rgba(253, 227, 167, .9);
-}
 .Home .row {
   min-height: 100vh;
   display: flex;

@@ -1,4 +1,4 @@
-/* global $ google page */
+/* global $ google page Firebase localStorage */
 
 function initMap () {
   // Create an array of styles.
@@ -67,33 +67,61 @@ function initMap () {
   })
 }
 
-function Home () {
+function leerDatos (id, pass) {
+  var ref = new Firebase('https://boda201610.firebaseio.com/')
+  ref.child(id).on('value', function (snapshot) {
+    var usuario = snapshot.val()
+    if (usuario.pass == pass) {
+      for (var dato in usuario) {
+        console.log(usuario.dato)
+      }
+      localStorage.datos = usuario
+    } else {
+      delete localStorage.datos
+    }
+  })
+
+}
+
+/* Routing */
+function cleanPage () {
   $('.Page').hide()
+}
+function Home () {
+  cleanPage()
   $('.Home').fadeIn(1000)
 }
 function Mapa () {
-  $('.Page').hide()
+  cleanPage()
   $('.Mapa').fadeIn(1000)
   initMap()
 }
+function Usuario (ctx) {
+  if (localStorage.datos) {
+    $('.Usuario-nombre').text(localStorage.datos.nombre)
+  } else {
+    leerDatos(ctx.params.id, ctx.params.pass)
+  }
+  cleanPage()
+  $('.Usuario').fadeIn(1000)
+}
 function Error404 () {
-  $('.Page').hide()
+  cleanPage()
   $('.Error404').fadeIn(1000)
 }
 
-$(document).ready(function () {
+$(function () {
+  $('.Home').fadeIn(1000)
   $(window).on('resize', function () {
     initMap()
   })
-})
-
-$(function () {
-  $('.Home').fadeIn(1000)
 
   page.base('/boda')
   page('/', Home)
   page('/Home', Home)
   page('/Mapa', Mapa)
+  page('/Usuario', Usuario)
+  page('/Usuario/:id/:pass', Usuario)
   page('*', Error404)
   page({
     hashbang: true

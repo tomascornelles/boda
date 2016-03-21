@@ -66,16 +66,17 @@ function initMap () {
     canWindow.open(map, canMarker)
   })
 }
-
+var datos
 function leerDatos (id, pass) {
   var ref = new Firebase('https://boda201610.firebaseio.com/')
   ref.child(id).on('value', function (snapshot) {
     var usuario = snapshot.val()
     if (usuario.pass === parseInt(pass)) {
-      localStorage.datos = usuario
-    } else {
-      delete localStorage.datos
-    }
+      datos = {
+        'nombre': usuario.nombre,
+      }
+    } 
+    console.log(typeof (localStorage.datos))
   })
 }
 
@@ -93,8 +94,8 @@ function Mapa () {
   initMap()
 }
 function Usuario (ctx) {
-  if (localStorage.datos) {
-    $('.Usuario-nombre').text(localStorage.datos.nombre)
+  if (datos) {
+    $('.Usuario-nombre').text(datos.nombre)
   } else {
     leerDatos(ctx.params.id, ctx.params.pass)
   }

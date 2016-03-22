@@ -67,42 +67,55 @@ function initMap () {
   })
 }
 
-var datos
-function UsuarioCarga (id, pass) {
-  if (datos) {
-    UsuarioMostrar(datos)
+function InvitadoCarga (id, pass) {
+  if (localStorage.datos) {
+    console.log('>>>')
+    var datos = JSON.parse(localStorage.getItem('datos'))
+    if (datos.pass === parseInt(pass)) {
+      InvitadoMostrar(datos)
+    }
   } else {
     var ref = new Firebase('https://boda201610.firebaseio.com/')
     ref.child(id).on('value', function (snapshot) {
-      var usuario = snapshot.val()
-      if (usuario.pass === parseInt(pass)) {
-        datos = {
-          'nombre': usuario.nombre,
-          'email': usuario.email,
-          'adultos': usuario.adultos,
-          'ninos': usuario.ninos,
-          'alergias': usuario.alergias
+      var Invitado = snapshot.val()
+      if (Invitado.pass === parseInt(pass)) {
+        var datos = {
+          'nombre': Invitado.nombre,
+          'email': Invitado.email,
+          'adultos': Invitado.adultos,
+          'ninos': Invitado.ninos,
+          'comida': Invitado.comida,
+          'pass': Invitado.pass
         }
-        UsuarioMostrar(datos)
-      } 
+        localStorage.setItem('datos', JSON.stringify(datos))
+        InvitadoMostrar(datos)
+      } else {
+        Error404()
+      }
     })
   }
 }
 
-function UsuarioMostrar(datos) {
-  $('.Usuario-nombre').text(datos.nombre)
-  $('.Usuario-email').text(datos.email)
-  $('.Usuario-adultos').text(datos.adultos)
-  $('.Usuario-ninos').text(datos.ninos)
-  $('.Usuario-alergias').text(datos.alergias)
-
-  $('.Usuario--cargando').hide();
-  $('.Usuario-contenido').fadeIn();
+function InvitadoMostrar (datos) {
+  console.log('>>>')
+  for (var dato in datos) {
+    if (datos[dato]) {
+      if (dato === 'nombre') {
+        $('.Invitado-' + dato).text(datos[dato])
+      } else {
+        $('.Invitado-' + dato).val(datos[dato]).closest('.Invitado-datos').show()
+      }
+    }
+  }
+  $('.Invitado--cargando').hide()
+  $('.Invitado-contenido').fadeIn()
 }
 
 /* Routing */
 function cleanPage () {
   $('.Page').hide()
+  $('.Invitado-contenido').hide()
+  $('.Invitado--cargando').show()
 }
 function Home () {
   cleanPage()
@@ -113,13 +126,10 @@ function Mapa () {
   $('.Mapa').fadeIn(1000)
   initMap()
 }
-function Usuario (ctx) {
-  UsuarioCarga(ctx.params.id, ctx.params.pass)
-  
+function Invitado (ctx) {
   cleanPage()
-  $('.Usuario-contenido').hide()
-  $('.Usuario--cargando').show()
-  $('.Usuario').fadeIn(1000)
+  InvitadoCarga(ctx.params.id, ctx.params.pass)
+  $('.Invitado').fadeIn(1000)
 }
 function Error404 () {
   cleanPage()
@@ -134,10 +144,10 @@ $(function () {
 
   page.base('/boda')
   page('/', Home)
-  page('/Home', Home)
-  page('/Mapa', Mapa)
-  page('/Usuario', Usuario)
-  page('/Usuario/:id/:pass', Usuario)
+  page('/home', Home)
+  page('/mapa', Mapa)
+  page('/invitado', Invitado)
+  page('/invitado/:id/:pass', Invitado)
   page('*', Error404)
   page({
     hashbang: true

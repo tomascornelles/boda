@@ -56,7 +56,7 @@
 
   <!-- Home Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="Page Home">
+  <div class="Page Home flex">
     <div class="row">
       <div class="twelve column u-text-center">
         <img src="img/cyt_fig.png" alt="" class="u-max-full-width"><br>
@@ -92,18 +92,18 @@
 
   <!-- User Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="Page Usuario">
-    <div class="row">
-      <div class="twelve column u-text-center">
-        <div class="Usuario--cargando"></div>
-        <div class="Usuario-contenido">
-          <ul>
-            <li><strong>Nombre</strong><span class="Usuario-nombre"></span></li>
-            <li><strong>Email</strong><span class="Usuario-email"></span></li>
-            <li><strong>Adultos</strong><span class="Usuario-adultos"></span></li>
-            <li><strong>Niños</strong><span class="Usuario-niños"></span></li>
-            <li><strong>Alergias</strong><span class="Usuario-alergias"></span></li>
-          </ul>
+  <div class="Page Invitado flex">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns u-text-center">
+          <div class="Invitado--cargando"></div>
+          <div class="Invitado-contenido">
+            <h2>Hola <span class="Invitado-nombre"></span>!</h2>
+            <label class="Invitado-datos"><strong>Email</strong><br><input type="text" class="Invitado-email u-full-width"></label>
+            <label class="Invitado-datos"><strong>Adultos</strong><br><input type="text" class="Invitado-adultos u-full-width"></label>
+            <label class="Invitado-datos"><strong>Niños</strong><br><input type="text" class="Invitado-ninos u-full-width"></label>
+            <label class="Invitado-datos"><strong>Comida</strong><br><input type="text" class="Invitado-comida u-full-width"></label>
+          </div>
         </div>
       </div>
     </div>
@@ -113,9 +113,9 @@
     <div class="row">
       <div class="twelve column u-text-center">
         <p>
-          <a href="./Home" class="button link">Home</a>
-          <a href="./Mapa" class="button link">Mapa</a>
-          <a href="./Usuario" class="button link">Usuario</a>
+          <a href="./" class="button link">Home</a>
+          <a href="./mapa" class="button link">Mapa</a>
+          <a href="./invitado/51/4646" class="button link">Invitado</a>
         </p>
       </div>
     </div>

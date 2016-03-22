@@ -32,17 +32,25 @@ body {
   display: none;
 }
 .Menu {
-  margin-top: -75px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 20;
+  background-color: rgba(255,255,255,.5);
 }
-
-/* Home */
-.Home .row {
+.Menu p {
+  margin: 1em;
+}
+.flex .row {
   min-height: 100vh;
   display: flex;
 }
-.Home .column {
+.flex .column, .flex .columns {
   align-self: center;
 }
+
+/* Home */
 
 /* Mapa */
 .Mapa .Mapa-mapa {
@@ -66,10 +74,13 @@ body {
   height:100vh;
 }
 
-/* Usuario */
-.Usuario--cargando {
-  background: url(../img/ring-alt.gif) center center no-repeat;
+/* Invitado */
+.Invitado--cargando {
+  background: url(../img/squares.gif) center center no-repeat;
   height: 100vh;
+}
+.Invitado-datos {
+  display: none;
 }
 
 /* Mobile first queries */

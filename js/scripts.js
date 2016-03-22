@@ -67,11 +67,11 @@ function initMap () {
   })
 }
 
-function InvitadoLogin (email,pass) {
-  new Firebase("https://boda201610.firebaseio.com/")
+function InvitadoLogin (email, pass) {
+  new Firebase('https://boda201610.firebaseio.com/')
     .orderByChild('email')
     .equalTo(email)
-    .once('value', function(snap) {
+    .once('value', function (snap) {
       if (snap.val()) {
         var res = snap.val()
         for (var i in res) {
@@ -87,25 +87,21 @@ function InvitadoLogin (email,pass) {
       }
     })
 }
-function InvitadoEnviarLogin(argument) {
-  // body...
-}
 function InvitadoCargar (Invitado) {
   var datos = {
     'nombre': Invitado.nombre,
     'email': Invitado.email,
     'adultos': Invitado.adultos,
     'ninos': Invitado.ninos,
-    'comida': Invitado.comida,
-    'pass': Invitado.pass
+    'comida': Invitado.comida
   }
 
   localStorage.setItem('datos', JSON.stringify(datos))
   page('/invitado')
 }
 function InvitadoMostrar () {
+  if (!localStorage.datos) ErrorLogin() // no user
   var datos = JSON.parse(localStorage.datos)
-  if (!datos) ErrorLogin() // no user
   for (var dato in datos) {
     if (datos[dato]) {
       if (dato === 'nombre') {
@@ -146,14 +142,18 @@ function Login (ctx) {
   InvitadoLogin(ctx.params.email, ctx.params.pass)
   $('.Invitado').fadeIn(1000)
 }
+function Logout () {
+  localStorage.removeItem('datos')
+  page('/home')
+}
 function Error404 () {
   cleanPage()
   $('.Error404').fadeIn(1000)
 }
-function ErrorLogin(arg) {
+function ErrorLogin (arg) {
   cleanPage()
   if (arg) $('.Login-' + arg).fadeIn(500)
-  $('.Login-form').on('submit', function(e){
+  $('.Login-form').on('submit', function (e) {
     e.preventDefault()
     page('/Invitado/' + $('.Login-email').val() + '/' + $('.Login-llave').val())
   })
@@ -172,6 +172,7 @@ $(function () {
   page('/mapa', Mapa)
   page('/invitado', Invitado)
   page('/invitado/:email/:pass', Login)
+  page('/salir', Logout)
   page('*', Error404)
   page({
     hashbang: true

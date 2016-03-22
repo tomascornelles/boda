@@ -67,37 +67,45 @@ function initMap () {
   })
 }
 
-function InvitadoCarga (id, pass) {
-  if (localStorage.datos) {
-    console.log('>>>')
-    var datos = JSON.parse(localStorage.getItem('datos'))
-    if (datos.pass === parseInt(pass)) {
-      InvitadoMostrar(datos)
-    }
-  } else {
-    var ref = new Firebase('https://boda201610.firebaseio.com/')
-    ref.child(id).on('value', function (snapshot) {
-      var Invitado = snapshot.val()
-      if (Invitado.pass === parseInt(pass)) {
-        var datos = {
-          'nombre': Invitado.nombre,
-          'email': Invitado.email,
-          'adultos': Invitado.adultos,
-          'ninos': Invitado.ninos,
-          'comida': Invitado.comida,
-          'pass': Invitado.pass
+function InvitadoLogin (email,pass) {
+  new Firebase("https://boda201610.firebaseio.com/")
+    .orderByChild('email')
+    .equalTo(email)
+    .once('value', function(snap) {
+      if (snap.val()) {
+        var res = snap.val()
+        for (var i in res) {
+          var Invitado = res[i]
+          if (Invitado.pass === parseInt(pass)) {
+            InvitadoCargar(Invitado)
+          } else {
+            ErrorLogin('noPass') // wrong pass
+          }
         }
-        localStorage.setItem('datos', JSON.stringify(datos))
-        InvitadoMostrar(datos)
       } else {
-        Error404()
+        ErrorLogin('noMail') // wrong user
       }
     })
-  }
 }
+function InvitadoEnviarLogin(argument) {
+  // body...
+}
+function InvitadoCargar (Invitado) {
+  var datos = {
+    'nombre': Invitado.nombre,
+    'email': Invitado.email,
+    'adultos': Invitado.adultos,
+    'ninos': Invitado.ninos,
+    'comida': Invitado.comida,
+    'pass': Invitado.pass
+  }
 
-function InvitadoMostrar (datos) {
-  console.log('>>>')
+  localStorage.setItem('datos', JSON.stringify(datos))
+  page('/invitado')
+}
+function InvitadoMostrar () {
+  var datos = JSON.parse(localStorage.datos)
+  if (!datos) ErrorLogin() // no user
   for (var dato in datos) {
     if (datos[dato]) {
       if (dato === 'nombre') {
@@ -107,6 +115,7 @@ function InvitadoMostrar (datos) {
       }
     }
   }
+
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
 }
@@ -116,6 +125,7 @@ function cleanPage () {
   $('.Page').hide()
   $('.Invitado-contenido').hide()
   $('.Invitado--cargando').show()
+  $('.Login-error').hide()
 }
 function Home () {
   cleanPage()
@@ -126,14 +136,28 @@ function Mapa () {
   $('.Mapa').fadeIn(1000)
   initMap()
 }
-function Invitado (ctx) {
+function Invitado () {
   cleanPage()
-  InvitadoCarga(ctx.params.id, ctx.params.pass)
+  InvitadoMostrar()
+  $('.Invitado').fadeIn(1000)
+}
+function Login (ctx) {
+  cleanPage()
+  InvitadoLogin(ctx.params.email, ctx.params.pass)
   $('.Invitado').fadeIn(1000)
 }
 function Error404 () {
   cleanPage()
   $('.Error404').fadeIn(1000)
+}
+function ErrorLogin(arg) {
+  cleanPage()
+  if (arg) $('.Login-' + arg).fadeIn(500)
+  $('.Login-form').on('submit', function(e){
+    e.preventDefault()
+    page('/Invitado/' + $('.Login-email').val() + '/' + $('.Login-llave').val())
+  })
+  $('.Login').fadeIn(1000)
 }
 
 /* App ready to rock */
@@ -147,7 +171,7 @@ $(function () {
   page('/home', Home)
   page('/mapa', Mapa)
   page('/invitado', Invitado)
-  page('/invitado/:id/:pass', Invitado)
+  page('/invitado/:email/:pass', Login)
   page('*', Error404)
   page({
     hashbang: true

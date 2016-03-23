@@ -67,22 +67,7 @@ function initMap () {
   })
 }
 
-function InvitadoLogin (pass) {
-  new Firebase('https://boda201610.firebaseio.com/')
-    .orderByChild('pass')
-    .equalTo(pass)
-    .once('value', function (snap) {
-      if (snap.val()) {
-        var res = snap.val()
-        for (var i in res) {
-          var Invitado = res[i]
-          InvitadoCargar(Invitado)
-        }
-      } else {
-        ErrorLogin('noPass') // wrong pass
-      }
-    })
-}
+/* Invitado */
 function InvitadoCargar (Invitado) {
   var datos = {
     'nombre': Invitado.nombre,
@@ -91,73 +76,92 @@ function InvitadoCargar (Invitado) {
     'ninos': Invitado.ninos,
     'comida': Invitado.comida
   }
-
   localStorage.setItem('datos', JSON.stringify(datos))
   page('/invitado')
 }
 function InvitadoMostrar () {
-  if (localStorage.datos) {
-    var datos = JSON.parse(localStorage.datos)
-    for (var dato in datos) {
-      if (datos[dato]) {
-        if (dato === 'nombre') {
-          $('.Invitado-' + dato).text(datos[dato])
-        } else {
-          $('.Invitado-' + dato).val(datos[dato]).closest('.Invitado-datos').show()
-        }
+  var datos = JSON.parse(localStorage.datos)
+  for (var dato in datos) {
+    if (datos[dato]) {
+      if (dato === 'nombre') {
+        $('.Invitado-' + dato).text(datos[dato])
+      } else {
+        $('.Invitado-' + dato).val(datos[dato]).closest('.Invitado-datos').show()
       }
     }
-  } else {
-    ErrorLogin() // no user
   }
-
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
 }
 
-/* Routing */
-function cleanPage () {
-  $('.Page').hide()
-  $('.Invitado-contenido').hide()
-  $('.Invitado--cargando').show()
-  $('.Login-error').hide()
-}
-function Home () {
-  cleanPage()
-  $('.Home').fadeIn(1000)
-}
-function Mapa () {
-  cleanPage()
-  $('.Mapa').fadeIn(1000)
-  initMap()
-}
-function Invitado () {
-  cleanPage()
-  InvitadoMostrar()
-  $('.Invitado').fadeIn(1000)
-}
+/* Login */
 function Login (ctx) {
-  cleanPage()
-  InvitadoLogin(parseInt(ctx.params.pass))
-  $('.Invitado').fadeIn(1000)
+  var pass = ctx.params.pass
+  $('.Login-form').on('submit', function (e) {
+    e.preventDefault()
+    page('/invitado/' + $('.Login-llave').val())
+  })
+  if (pass) { // Entra un llave o error por URL
+    if (pass === 'error') { // El login no es correcto
+      PaginaLogin()
+      $('.Login-noPass').fadeIn(500) // Muestra mensaje
+    } else { // El parámetro es una llave
+      pass = parseInt(pass)
+      localStorage.removeItem('datos') // Primero salimos de la sesion anterior
+      new Firebase('https://boda201610.firebaseio.com/')
+        .orderByChild('pass')
+        .equalTo(pass)
+        .once('value', function (snap) {
+          if (snap.val()) {
+            var res = snap.val()
+            for (var i in res) {
+              var Invitado = res[i]
+              InvitadoCargar(Invitado) // Si la llave es correcta redirige a la Página de invitado
+            }
+          } else {
+            page('/invitado/error') // Si la llave no es correcta devuelve al login y muestra el mensaje de error
+          }
+        })
+    }
+  } else if (localStorage.datos) { // Ya está definido el usuario
+    PaginaInvitado() // Muestra la página de invitado
+  } else {
+    PaginaLogin()
+  }
 }
 function Logout () {
   localStorage.removeItem('datos')
   page('/home')
 }
-function Error404 () {
-  cleanPage()
-  $('.Error404').fadeIn(1000)
+
+/* Routing */
+function PaginaLimpia () {
+  $('.Page').hide()
+  $('.Invitado-contenido').hide()
+  $('.Invitado--cargando').show()
+  $('.Login-error').hide()
 }
-function ErrorLogin (arg) {
-  cleanPage()
-  if (arg) $('.Login-' + arg).fadeIn(500)
-  $('.Login-form').on('submit', function (e) {
-    e.preventDefault()
-    page('/invitado/' + $('.Login-llave').val())
-  })
+function PaginaHome () {
+  PaginaLimpia()
+  $('.Home').fadeIn(1000)
+}
+function PaginaMapa () {
+  PaginaLimpia()
+  $('.Mapa').fadeIn(1000)
+  initMap()
+}
+function PaginaInvitado () {
+  PaginaLimpia()
+  InvitadoMostrar()
+  $('.Invitado').fadeIn(1000)
+}
+function PaginaLogin () {
+  PaginaLimpia()
   $('.Login').fadeIn(1000)
-  $('.Login-llave').focus()
+}
+function Pagina404 () {
+  PaginaLimpia()
+  $('.Error404').fadeIn(1000)
 }
 
 /* App ready to rock */
@@ -167,13 +171,14 @@ $(function () {
   })
 
   page.base('/boda')
-  page('/', Home)
-  page('/home', Home)
-  page('/mapa', Mapa)
-  page('/invitado', Invitado)
+  page('/', PaginaHome)
+  page('/home', PaginaHome)
+  page('/mapa', PaginaMapa)
+  page('/invitado', Login)
   page('/invitado/:pass', Login)
+  page('/entrar', Login)
   page('/salir', Logout)
-  page('*', Error404)
+  page('*', Pagina404)
   page({
     hashbang: true
   })

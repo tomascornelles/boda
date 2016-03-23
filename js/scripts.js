@@ -67,23 +67,19 @@ function initMap () {
   })
 }
 
-function InvitadoLogin (email, pass) {
+function InvitadoLogin (pass) {
   new Firebase('https://boda201610.firebaseio.com/')
-    .orderByChild('email')
-    .equalTo(email)
+    .orderByChild('pass')
+    .equalTo(pass)
     .once('value', function (snap) {
       if (snap.val()) {
         var res = snap.val()
         for (var i in res) {
           var Invitado = res[i]
-          if (Invitado.pass === parseInt(pass)) {
-            InvitadoCargar(Invitado)
-          } else {
-            ErrorLogin('noPass') // wrong pass
-          }
+          InvitadoCargar(Invitado)
         }
       } else {
-        ErrorLogin('noMail') // wrong user
+        ErrorLogin('noPass') // wrong pass
       }
     })
 }
@@ -100,16 +96,19 @@ function InvitadoCargar (Invitado) {
   page('/invitado')
 }
 function InvitadoMostrar () {
-  if (!localStorage.datos) ErrorLogin() // no user
-  var datos = JSON.parse(localStorage.datos)
-  for (var dato in datos) {
-    if (datos[dato]) {
-      if (dato === 'nombre') {
-        $('.Invitado-' + dato).text(datos[dato])
-      } else {
-        $('.Invitado-' + dato).val(datos[dato]).closest('.Invitado-datos').show()
+  if (localStorage.datos) {
+    var datos = JSON.parse(localStorage.datos)
+    for (var dato in datos) {
+      if (datos[dato]) {
+        if (dato === 'nombre') {
+          $('.Invitado-' + dato).text(datos[dato])
+        } else {
+          $('.Invitado-' + dato).val(datos[dato]).closest('.Invitado-datos').show()
+        }
       }
     }
+  } else {
+    ErrorLogin() // no user
   }
 
   $('.Invitado--cargando').hide()
@@ -139,7 +138,7 @@ function Invitado () {
 }
 function Login (ctx) {
   cleanPage()
-  InvitadoLogin(ctx.params.email, ctx.params.pass)
+  InvitadoLogin(parseInt(ctx.params.pass))
   $('.Invitado').fadeIn(1000)
 }
 function Logout () {
@@ -155,9 +154,10 @@ function ErrorLogin (arg) {
   if (arg) $('.Login-' + arg).fadeIn(500)
   $('.Login-form').on('submit', function (e) {
     e.preventDefault()
-    page('/Invitado/' + $('.Login-email').val() + '/' + $('.Login-llave').val())
+    page('/invitado/' + $('.Login-llave').val())
   })
   $('.Login').fadeIn(1000)
+  $('.Login-llave').focus()
 }
 
 /* App ready to rock */
@@ -171,7 +171,7 @@ $(function () {
   page('/home', Home)
   page('/mapa', Mapa)
   page('/invitado', Invitado)
-  page('/invitado/:email/:pass', Login)
+  page('/invitado/:pass', Login)
   page('/salir', Logout)
   page('*', Error404)
   page({

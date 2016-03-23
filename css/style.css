@@ -22,7 +22,7 @@
 }
 .button-check {
   padding: 0 15px;
-  box-shadow: 0 5px 0 0 #E5C187;
+  box-shadow: 0 2px 0 0 #E5C187;
   background: #EFD2A3;
 }
 .button-check.checked {

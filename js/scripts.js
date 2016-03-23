@@ -157,6 +157,7 @@ function ErrorLogin (arg) {
     page('/invitado/' + $('.Login-llave').val())
   })
   $('.Login').fadeIn(1000)
+  $('.Login-llave').focus()
 }
 
 /* App ready to rock */

@@ -20,6 +20,15 @@
 .u-text-center {
   text-align: center;
 }
+.button-check {
+  padding: 0 15px;
+  box-shadow: 0 5px 0 0 #E5C187;
+  background: #EFD2A3;
+}
+.button-check.checked {
+  box-shadow: 0 2px 0 0 #E5C187;
+  background: #FFFFFF;
+}
 
 /* Generic styles */
 
@@ -45,6 +54,7 @@ body {
 .flex .row {
   min-height: 100vh;
   display: flex;
+  width: 100%;
 }
 .flex .column, .flex .columns {
   align-self: center;
@@ -79,14 +89,19 @@ body {
   background: url(../img/squares.gif) center center no-repeat;
   height: 100vh;
 }
-.Invitado-datos {
+.Invitado-datos, .Invitado-mensaje, .Invitado-confirmar {
   display: none;
 }
+
 
 /* Login */
 .Login-error {
   color: #c00;
 }
+/*.Login-llave {
+  font-size: 2em;
+  line-height: 3em;
+}*/
 
 /* Mobile first queries */
 

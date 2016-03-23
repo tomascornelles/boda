@@ -194,7 +194,7 @@ body {
   /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
-  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;*/
   color: #222;
 }
 
@@ -282,12 +282,9 @@ p {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 a {
-  color: #1EAEDB;
+  color: #666;
 }
 
-a:hover {
-  color: #0FA0CE;
-}
 
 
 /* Buttons
@@ -318,11 +315,11 @@ input[type="button"] {
   box-sizing: border-box;
 }
 
-.button:hover,
+/*.button:hover,
 button:hover,
 input[type="submit"]:hover,
 input[type="reset"]:hover,
-input[type="button"]:hover,
+input[type="button"]:hover,*/
 .button:focus,
 button:focus,
 input[type="submit"]:focus,
@@ -343,11 +340,11 @@ input[type="button"].button-primary {
   border-color: #33C3F0;
 }
 
-.button.button-primary:hover,
+/*.button.button-primary:hover,
 button.button-primary:hover,
 input[type="submit"].button-primary:hover,
 input[type="reset"].button-primary:hover,
-input[type="button"].button-primary:hover,
+input[type="button"].button-primary:hover,*/
 .button.button-primary:focus,
 button.button-primary:focus,
 input[type="submit"].button-primary:focus,
@@ -377,11 +374,12 @@ select {
   /*background-color: #ffffff;
   border-radius: 2px;
   border: 1px solid #E5C187;*/
-  background-color: transparent;
+  background-color: #ffffff;
   border-radius: 0;
   border: 0;
   border-bottom: 1px solid #FFC566;
   box-sizing: border-box;
+  color:#7F6233;
 }
 
 

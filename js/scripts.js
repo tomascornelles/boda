@@ -93,6 +93,18 @@ function InvitadoMostrar () {
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
 }
+function InvitadoMuestraConfirmar () {
+  $('.Invitado-botones').slideUp(400)
+  $('.Invitado-confirmar').slideDown(400)
+}
+function InvitadoMuestraMensaje () {
+  $('.Invitado-botones').slideUp(400)
+  $('.Invitado-mensaje').slideDown(400)
+}
+function toggleButton() {
+  if ($(this).hasClass('checked')) $(this).removeClass('checked')
+  else $(this).addClass('checked').siblings('.button-check').removeClass('checked')
+}
 
 /* Login */
 function Login (ctx) {
@@ -140,6 +152,9 @@ function PaginaLimpia () {
   $('.Invitado-contenido').hide()
   $('.Invitado--cargando').show()
   $('.Login-error').hide()
+  $('.Invitado-mensaje').hide()
+  $('.Invitado-confirmar').hide()
+  $('.Invitado-botones').show()
 }
 function PaginaHome () {
   PaginaLimpia()
@@ -169,6 +184,10 @@ $(function () {
   $(window).on('resize', function () {
     initMap()
   })
+
+  $('.Invitado-boton-mensaje').on('click', InvitadoMuestraMensaje)
+  $('.Invitado-boton-confirmar').on('click', InvitadoMuestraConfirmar)
+  $('.button-check').on('click', toggleButton)
 
   page.base('/boda')
   page('/', PaginaHome)

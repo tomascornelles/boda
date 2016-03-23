@@ -88,16 +88,13 @@
     <div class="container">
       <div class="row">
         <div class="twelve column u-text-center">
-          <div class="Login-error Login-noMail">
-            <h4>El email no lo tenemos registrado</h4>
-          </div>
           <div class="Login-error Login-noPass">
             <h4>La llave no es correcta</h4>
           </div>
           <form class="Login-form">
             <label class="Login-datos">
               <strong>Llave</strong><br>
-              <input type="password" class="Login-llave u-full-width" required autocomplete="off">
+              <input type="number" name="nocache" class="Login-llave u-full-width u-text-center" required>
             </label>
             <label><input type="submit" value="Entrar"></label>
           </form>
@@ -115,22 +112,68 @@
         <div class="twelve columns u-text-center">
           <div class="Invitado--cargando"></div>
           <div class="Invitado-contenido">
-            <h2>¡Hola <span class="Invitado-nombre"></span>!</h2>
-            <h4>¿Confirmas asistencia?</h4>
-            <div class="row">
-              <div class="six columns">
-                <a class="button u-full-width">¡Cuenta conmigo!</a>
+
+            <div class="Invitado-botones">
+              <div class="row">
+                <div class="twelve columns">
+                  <h2>¡Hola <span class="Invitado-nombre"></span>!</h2>
+                  <h4>¿Confirmas asistencia?</h4>
+                </div>
               </div>
-              <div class="six columns">
-                <a class="button u-full-width">No puedo... pero te mando mi felicitación</a>
+              <div class="row">
+                <div class="six columns">
+                  <a class="button u-full-width Invitado-boton-confirmar">¡Contad conmigo!</a>
+                </div>
+                <div class="six columns">
+                  <a class="button u-full-width Invitado-boton-mensaje">Os mando mi felicitación</a>
+                </div>
+              </div>
+              <p>
+                <a href="./salir">Salir</a>
+              </p>
+            </div>
+
+            <div class="Invitado-mensaje">
+              <div class="row">
+                <div class="twelve columns">
+                  <div class="caja">
+                    <h4>Sentimos que no puedas asistir, pero nos haría mucha ilusión un mensaje tuyo ;)</h4>
+                    <textarea class="u-full-width Invitado-mensaje-texto"></textarea>
+                    <p>
+                      <a class="button Invitado-mensaje-enviar">Enviar</a>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- <label class="Invitado-datos"><strong>Email</strong><br><input type="text" class="Invitado-email u-full-width"></label>
-            <label class="Invitado-datos"><strong>Adultos</strong><br><input type="text" class="Invitado-adultos u-full-width"></label>
-            <label class="Invitado-datos"><strong>Niños</strong><br><input type="text" class="Invitado-ninos u-full-width"></label>
-            <label class="Invitado-datos"><strong>Comida</strong><br><input type="text" class="Invitado-comida u-full-width"></label> -->
-            <a href="./salir">Salir</a>
+            <div class="Invitado-confirmar">
+              <div class="row">
+                <div class="six columns Invitado-confirmar-adultos">
+                  <h5>¿Cuantos Adultos?</h5>
+                  <a class="button button-check checked Invitado-boton-confirmar">1</a>
+                  <a class="button button-check Invitado-boton-confirmar">2</a>
+                  <a class="button button-check Invitado-boton-confirmar">3</a>
+                  <a class="button button-check Invitado-boton-confirmar">4</a>
+                  <a class="button button-check Invitado-boton-confirmar">5</a>
+                  <a class="button button-check Invitado-boton-confirmar">6</a>
+                  <a class="button button-check Invitado-boton-confirmar">7</a>
+                  <a class="button button-check Invitado-boton-confirmar">8</a>
+                </div>
+                <div class="six columns Invitado-confirmar-ninos">
+                  <h5>¿Cuantos Niños?</h5>
+                  <a class="button button-check Invitado-boton-confirmar">1</a>
+                  <a class="button button-check Invitado-boton-confirmar">2</a>
+                  <a class="button button-check Invitado-boton-confirmar">3</a>
+                  <a class="button button-check Invitado-boton-confirmar">4</a>
+                  <a class="button button-check Invitado-boton-confirmar">5</a>
+                  <a class="button button-check Invitado-boton-confirmar">6</a>
+                  <a class="button button-check Invitado-boton-confirmar">7</a>
+                  <a class="button button-check Invitado-boton-confirmar">8</a>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

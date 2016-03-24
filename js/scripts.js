@@ -93,18 +93,6 @@ function InvitadoMostrar () {
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
 }
-function toggleDestino () {
-  console.log($(this).attr('data-destino'));
-  $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
-  $($(this).attr('data-destino')).slideDown(400)
-}
-function toggleButton() {
-  if ($(this).hasClass('checked')) $(this).removeClass('checked')
-  else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
-}
-function checkButton() {
-  $(this).toggleClass('checked')
-}
 
 /* Login */
 function Login (ctx) {
@@ -144,6 +132,20 @@ function Login (ctx) {
 function Logout () {
   localStorage.removeItem('datos')
   page('/home')
+}
+
+/* Utilidades */
+function toggleDestino () {
+  console.log($(this).attr('data-destino'));
+  $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
+  $($(this).attr('data-destino')).slideDown(400)
+}
+function toggleButton() {
+  if ($(this).hasClass('checked')) $(this).removeClass('checked')
+  else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
+}
+function checkButton() {
+  $(this).toggleClass('checked')
 }
 
 /* Routing */

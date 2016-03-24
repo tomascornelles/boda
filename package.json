@@ -1,0 +1,23 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "main": "Gulpfile.js",
+  "dependencies": {
+    "gulp-sass": "^2.0.4",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-uglify": "^1.4.1",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-minify": "0.0.5"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Carlos Durán",
+  "license": "MIT",
+  "description": "Conjunto de herramientas para el desarrollo con sass y minimizar ficheros.",
+  "devDependencies": {
+    "gulp-uncss": "^1.0.4"
+  }
+}

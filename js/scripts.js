@@ -134,12 +134,28 @@ function Logout () {
   page('/home')
 }
 
+/* Utilidades */
+function toggleDestino () {
+  console.log($(this).attr('data-destino'));
+  $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
+  $($(this).attr('data-destino')).slideDown(400)
+}
+function toggleButton() {
+  if ($(this).hasClass('checked')) $(this).removeClass('checked')
+  else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
+}
+function checkButton() {
+  $(this).toggleClass('checked')
+}
+
 /* Routing */
 function PaginaLimpia () {
   $('.Page').hide()
-  $('.Invitado-contenido').hide()
+  $('.Page-section').hide()
+  $('.error').hide()
+
   $('.Invitado--cargando').show()
-  $('.Login-error').hide()
+  $('.Invitado-contenido-botones').show()
 }
 function PaginaHome () {
   PaginaLimpia()
@@ -169,6 +185,10 @@ $(function () {
   $(window).on('resize', function () {
     initMap()
   })
+
+  $('.button-submit').on('click', toggleDestino)
+  $('.button-radio').on('click', toggleButton)
+  $('.button-check').on('click', checkButton)
 
   page.base('/boda')
   page('/', PaginaHome)

@@ -45,10 +45,10 @@
 
   <!-- Home Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="Page Home flex">
+  <div class="Page Home">
     <div class="container">
-      <div class="row">
-        <div class="twelve column u-text-center">
+      <div class="row flex-row">
+        <div class="twelve column flex-column u-text-center">
           <!-- <img src="img/cyt_fig.png" alt="" class="u-max-full-width"><br>
           <img src="img/cyt_640.png" alt="" class="u-max-full-width"> -->
           <h2>22 de Octubre</h2>
@@ -84,11 +84,11 @@
 
   <!-- Login Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="Page Login flex">
+  <div class="Page Login">
     <div class="container">
-      <div class="row">
-        <div class="twelve column u-text-center">
-          <div class="Login-error Login-noPass">
+      <div class="row flex-row">
+        <div class="twelve column flex-column u-text-center">
+          <div class="Login-error Login-noPass error">
             <h4>La llave no es correcta</h4>
           </div>
           <form class="Login-form">
@@ -108,18 +108,24 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="Page Invitado">
     <div class="container">
-      <div class="row">
-        <div class="twelve columns u-text-center">
+      <div class="row flex-row">
+        <div class="twelve columns flex-column u-text-center">
           <div class="Invitado--cargando"></div>
           <div class="Invitado-contenido">
 
-            <div class="Invitado-botones flex">
+            <div class="Invitado-contenido-botones Page-section">
               <div class="row">
                 <div class="twelve columns">
                   <h2>¡Hola <span class="Invitado-nombre"></span>!</h2>
                   <h4>¿Confirmas asistencia?</h4>
-                  <a class="button u-full-width Invitado-boton-confirmar">¡Contad conmigo!</a>
-                  <a class="button u-full-width Invitado-boton-mensaje">Os mando mi felicitación</a>
+                  <div class="row">
+                    <div class="six columns">
+                      <a class="button button-submit u-full-width" data-destino=".Invitado-contenido-confirmar">¡Contad conmigo!</a>
+                    </div>
+                    <div class="six columns">
+                      <a class="button button-submit u-full-width" data-destino=".Invitado-contenido-mensaje">Os mando mi felicitación</a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <p>
@@ -127,7 +133,7 @@
               </p>
             </div>
 
-            <div class="Invitado-mensaje flex">
+            <div class="Invitado-contenido-mensaje Page-section">
               <div class="row">
                 <div class="twelve columns">
                   <div class="caja">
@@ -141,33 +147,68 @@
               </div>
             </div>
 
-            <div class="Invitado-confirmar flex">
+            <div class="Invitado-contenido-confirmar Page-section">
               <div class="row">
-                <div class="six columns Invitado-confirmar-adultos">
+                <div class="six columns">
                   <p>¿Cuantos Adultos?</p>
-                  <a class="button button-check checked Invitado-boton-confirmar">1</a>
-                  <a class="button button-check Invitado-boton-confirmar">2</a>
-                  <a class="button button-check Invitado-boton-confirmar">3</a>
-                  <a class="button button-check Invitado-boton-confirmar">4</a>
-                  <a class="button button-check Invitado-boton-confirmar">5</a>
-                  <a class="button button-check Invitado-boton-confirmar">6</a>
-                  <a class="button button-check Invitado-boton-confirmar">7</a>
-                  <a class="button button-check Invitado-boton-confirmar">8</a>
+                  <a class="button button-radio" data-parametro="adultos">1</a>
+                  <a class="button button-radio" data-parametro="adultos">2</a>
+                  <a class="button button-radio" data-parametro="adultos">3</a>
+                  <a class="button button-radio" data-parametro="adultos">4</a>
+                  <a class="button button-radio" data-parametro="adultos">5</a>
+                  <a class="button button-radio" data-parametro="adultos">6</a>
+                  <a class="button button-radio" data-parametro="adultos">7</a>
+                  <a class="button button-radio" data-parametro="adultos">8</a>
                 </div>
-                <div class="six columns Invitado-confirmar-ninos">
+                <div class="six columns">
                   <p>¿Cuantos Niños?</p>
-                  <a class="button button-check Invitado-boton-confirmar">1</a>
-                  <a class="button button-check Invitado-boton-confirmar">2</a>
-                  <a class="button button-check Invitado-boton-confirmar">3</a>
-                  <a class="button button-check Invitado-boton-confirmar">4</a>
-                  <a class="button button-check Invitado-boton-confirmar">5</a>
-                  <a class="button button-check Invitado-boton-confirmar">6</a>
-                  <a class="button button-check Invitado-boton-confirmar">7</a>
-                  <a class="button button-check Invitado-boton-confirmar">8</a>
+                  <a class="button button-radio" data-parametro="ninos">1</a>
+                  <a class="button button-radio" data-parametro="ninos">2</a>
+                  <a class="button button-radio" data-parametro="ninos">3</a>
+                  <a class="button button-radio" data-parametro="ninos">4</a>
+                  <a class="button button-radio" data-parametro="ninos">5</a>
+                  <a class="button button-radio" data-parametro="ninos">6</a>
+                  <a class="button button-radio" data-parametro="ninos">7</a>
+                  <a class="button button-radio" data-parametro="ninos">8</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="twelve columns">
+                  <a class="button button-submit" data-destino=".Invitado-contenido-informacion">Confirmar</a>
                 </div>
               </div>
             </div>
 
+            <div class="Invitado-contenido-informacion Page-section">
+              <div class="row">
+                <div class="twelve columns">
+                  <p>¿Hay algun requisito con la comida?</p>
+                  <a class="button button-check" data-parametro="comida">Vegetariana</a>
+                  <a class="button button-check" data-parametro="comida">Vegana</a>
+                  <a class="button button-check" data-parametro="comida">Sin gluten</a>
+                  <a class="button button-check" data-parametro="comida">Sin sal</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="twelve columns">
+                  <a class="button button-submit" data-destino=".Invitado-contenido-gracias">Confirmar</a>
+                </div>
+              </div>
+              <div class="row">
+                <div class="six columns"></div>
+                <div class="six columns"></div>
+              </div>
+            </div>
+
+            <div class="Invitado-contenido-gracias Page-section">
+              <div class="row">
+                <div class="twelve columns">
+                  <h3>¡Gracias!</h3>
+                  <p>Os esperamos el dia XX de Octubre .... blablabla</p>
+                  <p><a href="./invitado" class="button link">Volver</a></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

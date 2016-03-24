@@ -93,17 +93,17 @@ function InvitadoMostrar () {
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
 }
-function InvitadoMuestraConfirmar () {
-  $('.Invitado-botones').slideUp(400)
-  $('.Invitado-confirmar').slideDown(400)
-}
-function InvitadoMuestraMensaje () {
-  $('.Invitado-botones').slideUp(400)
-  $('.Invitado-mensaje').slideDown(400)
+function toggleDestino () {
+  console.log($(this).attr('data-destino'));
+  $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
+  $($(this).attr('data-destino')).slideDown(400)
 }
 function toggleButton() {
   if ($(this).hasClass('checked')) $(this).removeClass('checked')
-  else $(this).addClass('checked').siblings('.button-check').removeClass('checked')
+  else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
+}
+function checkButton() {
+  $(this).toggleClass('checked')
 }
 
 /* Login */
@@ -149,12 +149,11 @@ function Logout () {
 /* Routing */
 function PaginaLimpia () {
   $('.Page').hide()
-  $('.Invitado-contenido').hide()
+  $('.Page-section').hide()
+  $('.error').hide()
+
   $('.Invitado--cargando').show()
-  $('.Login-error').hide()
-  $('.Invitado-mensaje').hide()
-  $('.Invitado-confirmar').hide()
-  $('.Invitado-botones').show()
+  $('.Invitado-contenido-botones').show()
 }
 function PaginaHome () {
   PaginaLimpia()
@@ -185,9 +184,9 @@ $(function () {
     initMap()
   })
 
-  $('.Invitado-boton-mensaje').on('click', InvitadoMuestraMensaje)
-  $('.Invitado-boton-confirmar').on('click', InvitadoMuestraConfirmar)
-  $('.button-check').on('click', toggleButton)
+  $('.button-submit').on('click', toggleDestino)
+  $('.button-radio').on('click', toggleButton)
+  $('.button-check').on('click', checkButton)
 
   page.base('/boda')
   page('/', PaginaHome)

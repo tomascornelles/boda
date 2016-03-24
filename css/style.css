@@ -20,12 +20,12 @@
 .u-text-center {
   text-align: center;
 }
-.button-check {
+.button-radio, .button-check {
   padding: 0 15px;
   box-shadow: 0 2px 0 0 #E5C187;
   background: #EFD2A3;
 }
-.button-check.checked {
+.button-radio.checked, .button-check.checked {
   box-shadow: 0 2px 0 0 #E5C187;
   background: #FFFFFF;
 }
@@ -37,7 +37,7 @@ body {
 /*   background: url(https://upload.wikimedia.org/wikipedia/commons/2/2f/Rutes_Hist%C3%B2riques_a_Horta-Guinard%C3%B3-can_cortada_04.jpg);
   background-size: cover; */
 }
-.Page {
+.Page, .error {
   display: none;
 }
 .Menu {
@@ -51,12 +51,12 @@ body {
 .Menu p {
   margin: 1em;
 }
-.flex .row {
+.flex-row {
   min-height: 100vh;
   display: flex;
   width: 100%;
 }
-.flex .column, .flex .columns {
+.flex-column {
   align-self: center;
 }
 

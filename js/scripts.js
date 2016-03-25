@@ -48,10 +48,10 @@ function initMap () {
 
   // Lugares
   var can = {
-    title: 'Can Cortada',
-    coords: new google.maps.LatLng(41.4364338, 2.1518140),
+    title: 'Hotel Avenida Palace',
+    coords: new google.maps.LatLng(41.3890643,2.167363),
     description: '<p><strong>Can Cortada</strong></p>' + '<p><strong>Hora: </strong> 14:00h</p>',
-    icono: 'img/can32.png'
+    icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
     content: can.description
@@ -68,8 +68,10 @@ function initMap () {
 }
 
 /* Invitado */
-function InvitadoCargar (Invitado) {
+function InvitadoCargar (Invitado, id) {
   var datos = {
+    'id': id,
+    'pass': Invitado.pass,
     'nombre': Invitado.nombre,
     'email': Invitado.email,
     'adultos': Invitado.adultos,
@@ -92,6 +94,28 @@ function InvitadoMostrar () {
   }
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
+}
+function InvitadoGuardar(dato) {
+  var datos = JSON.parse(localStorage.datos)
+  var parametro = dato.attr('data-parametro')
+  var valor = ''
+  $('.checked[data-parametro='+parametro+']').each(function() {
+    if (valor) valor+= ', '
+    valor+=$(this).text()
+  })
+  datos[parametro] = valor
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase("https://boda201610.firebaseio.com/")
+    .child(datos.id)
+    .set(datos)
+}
+function InvitadoMensaje() {
+  var datos = JSON.parse(localStorage.datos)
+  datos['mensaje'] = $('.Invitado-mensaje-texto').val()
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase("https://boda201610.firebaseio.com/")
+    .child(datos.id)
+    .set(datos)
 }
 
 /* Login */
@@ -116,7 +140,7 @@ function Login (ctx) {
             var res = snap.val()
             for (var i in res) {
               var Invitado = res[i]
-              InvitadoCargar(Invitado) // Si la llave es correcta redirige a la Página de invitado
+              InvitadoCargar(Invitado,i) // Si la llave es correcta redirige a la Página de invitado
             }
           } else {
             page('/invitado/error') // Si la llave no es correcta devuelve al login y muestra el mensaje de error
@@ -131,12 +155,12 @@ function Login (ctx) {
 }
 function Logout () {
   localStorage.removeItem('datos')
+  $('.checked').removeClass('checked')
   page('/home')
 }
 
 /* Utilidades */
 function toggleDestino () {
-  console.log($(this).attr('data-destino'));
   $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
   $($(this).attr('data-destino')).slideDown(400)
 }
@@ -146,6 +170,7 @@ function toggleButton() {
 }
 function checkButton() {
   $(this).toggleClass('checked')
+  InvitadoGuardar($(this))
 }
 
 /* Routing */
@@ -189,6 +214,7 @@ $(function () {
   $('.button-submit').on('click', toggleDestino)
   $('.button-radio').on('click', toggleButton)
   $('.button-check').on('click', checkButton)
+  $('.Invitado-mensaje-enviar').on('click', InvitadoMensaje)
 
   page.base('/boda')
   page('/', PaginaHome)

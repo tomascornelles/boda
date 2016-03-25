@@ -110,7 +110,6 @@
         <div class="twelve columns flex-column u-text-center">
           <div class="Invitado--cargando"></div>
           <div class="Invitado-contenido">
-<<<<<<< HEAD
 
             <div class="Invitado-contenido-botones Page-section">
               <div class="row">
@@ -139,7 +138,7 @@
                     <h4>Sentimos que no puedas asistir, pero nos haría mucha ilusión un mensaje tuyo ;)</h4>
                     <textarea class="u-full-width Invitado-mensaje-texto"></textarea>
                     <p>
-                      <a class="button Invitado-mensaje-enviar">Enviar</a>
+                      <a class="button Invitado-mensaje-enviar button-submit" data-destino=".Invitado-mensaje-gracias">Enviar</a>
                     </p>
                   </div>
                 </div>
@@ -149,22 +148,20 @@
             <div class="Invitado-contenido-confirmar Page-section">
               <div class="row">
                 <div class="six columns">
-                  <p>¿Cuantos Adultos?</p>
                   <a class="button button-radio" data-parametro="adultos">1</a>
                   <a class="button button-radio" data-parametro="adultos">2</a>
                   <a class="button button-radio" data-parametro="adultos">3</a>
-                  <a class="button button-radio" data-parametro="adultos">4</a>
+                  <a class="button button-radio" data-parametro="adultos">4</a><br>
                   <a class="button button-radio" data-parametro="adultos">5</a>
                   <a class="button button-radio" data-parametro="adultos">6</a>
                   <a class="button button-radio" data-parametro="adultos">7</a>
                   <a class="button button-radio" data-parametro="adultos">8</a>
                 </div>
                 <div class="six columns">
-                  <p>¿Cuantos Niños?</p>
                   <a class="button button-radio" data-parametro="ninos">1</a>
                   <a class="button button-radio" data-parametro="ninos">2</a>
                   <a class="button button-radio" data-parametro="ninos">3</a>
-                  <a class="button button-radio" data-parametro="ninos">4</a>
+                  <a class="button button-radio" data-parametro="ninos">4</a><br>
                   <a class="button button-radio" data-parametro="ninos">5</a>
                   <a class="button button-radio" data-parametro="ninos">6</a>
                   <a class="button button-radio" data-parametro="ninos">7</a>
@@ -173,7 +170,7 @@
               </div>
               <div class="row">
                 <div class="twelve columns">
-                  <a class="button button-submit" data-destino=".Invitado-contenido-informacion">Confirmar</a>
+                  <a class="button button-submit" data-destino=".Invitado-contenido-informacion">Continuar</a>
                 </div>
               </div>
             </div>
@@ -181,7 +178,7 @@
             <div class="Invitado-contenido-informacion Page-section">
               <div class="row">
                 <div class="twelve columns">
-                  <p>¿Hay algun requisito con la comida?</p>
+                  <label>¿Hay algun requisito con la comida?</label>
                   <a class="button button-check" data-parametro="comida">Vegetariana</a>
                   <a class="button button-check" data-parametro="comida">Vegana</a>
                   <a class="button button-check" data-parametro="comida">Sin gluten</a>
@@ -210,14 +207,17 @@
                 </div>
               </div>
             </div>
-=======
-            <h2>¡Hola <span class="Invitado-nombre"></span>!</h2>
-            <label class="Invitado-datos"><strong>Email</strong><br><input type="text" class="Invitado-email u-full-width"></label>
-            <label class="Invitado-datos"><strong>Adultos</strong><br><input type="text" class="Invitado-adultos u-full-width"></label>
-            <label class="Invitado-datos"><strong>Niños</strong><br><input type="text" class="Invitado-ninos u-full-width"></label>
-            <label class="Invitado-datos"><strong>Comida</strong><br><input type="text" class="Invitado-comida u-full-width"></label>
-            <a href="./salir">Salir</a>
->>>>>>> master
+
+            <div class="Invitado-mensaje-gracias Page-section">
+              <div class="row">
+                <div class="twelve columns">
+                  <h3>¡Gracias!</h3>
+                  <p>Nos hace mucha ilusion recibir este mensaje de tu parte ;)</p>
+                  <p><a href="./invitado" class="button link">Volver</a></p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

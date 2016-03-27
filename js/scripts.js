@@ -30,8 +30,8 @@ function initMap () {
   // Create a map object, and include the MapTypeId to add
   // to the map type control.
   var mapOptions = {
-    zoom: 13,
-    center: {lat: 41.4364338, lng: 2.1518140},
+    zoom: 15,
+    center: {lat: 41.3890643, lng: 2.167363},
     // center: {lat: 41.4382338, lng: 2.1203029},
 
     scrollwheel: false,
@@ -49,7 +49,7 @@ function initMap () {
   // Lugares
   var can = {
     title: 'Hotel Avenida Palace',
-    coords: new google.maps.LatLng(41.3890643,2.167363),
+    coords: new google.maps.LatLng(41.3890643, 2.167363),
     description: '<p><strong>Can Cortada</strong></p>' + '<p><strong>Hora: </strong> 14:00h</p>',
     icono: 'img/palace64.png'
   }
@@ -95,25 +95,25 @@ function InvitadoMostrar () {
   $('.Invitado--cargando').hide()
   $('.Invitado-contenido').fadeIn()
 }
-function InvitadoGuardar(dato) {
+function InvitadoGuardar (dato) {
   var datos = JSON.parse(localStorage.datos)
   var parametro = dato.attr('data-parametro')
   var valor = ''
-  $('.checked[data-parametro='+parametro+']').each(function() {
-    if (valor) valor+= ', '
-    valor+=$(this).text()
+  $('.checked[data-parametro=' + parametro + ']').each(function () {
+    if (valor) valor += ', '
+    valor += $(this).text()
   })
   datos[parametro] = valor
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase("https://boda201610.firebaseio.com/")
+  new Firebase('https://boda201610.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
-function InvitadoMensaje() {
+function InvitadoMensaje () {
   var datos = JSON.parse(localStorage.datos)
   datos['mensaje'] = $('.Invitado-mensaje-texto').val()
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase("https://boda201610.firebaseio.com/")
+  new Firebase('https://boda201610.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
@@ -140,7 +140,7 @@ function Login (ctx) {
             var res = snap.val()
             for (var i in res) {
               var Invitado = res[i]
-              InvitadoCargar(Invitado,i) // Si la llave es correcta redirige a la Página de invitado
+              InvitadoCargar(Invitado, i) // Si la llave es correcta redirige a la Página de invitado
             }
           } else {
             page('/invitado/error') // Si la llave no es correcta devuelve al login y muestra el mensaje de error
@@ -164,11 +164,12 @@ function toggleDestino () {
   $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
   $($(this).attr('data-destino')).slideDown(400)
 }
-function toggleButton() {
+function toggleButton () {
   if ($(this).hasClass('checked')) $(this).removeClass('checked')
   else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
+  InvitadoGuardar($(this))
 }
-function checkButton() {
+function checkButton () {
   $(this).toggleClass('checked')
   InvitadoGuardar($(this))
 }

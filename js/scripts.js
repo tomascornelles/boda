@@ -230,7 +230,7 @@ function MusicaGuardar () {
   } else {
     datos[parametro] = valor
   }
-
+  $('.Musica-volver').slideDown()
   localStorage.setItem('datos', JSON.stringify(datos))
   new Firebase('https://boda201610.firebaseio.com/')
     .child(datos.id)

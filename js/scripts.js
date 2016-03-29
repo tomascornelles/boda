@@ -194,8 +194,10 @@ function MusicaBuscar () {
       console.log(item)
       var datos = JSON.parse(localStorage.datos)
       var clase = ''
-      if (datos.canciones.indexOf(item.id) !== -1) {
-        clase = 'seleccionada'
+      if (datos.canciones) {
+        if (datos.canciones.indexOf(item.id) !== -1) {
+          clase = 'seleccionada'
+        }
       }
       var resultado = '<div class="Musica-resultado ' + clase + ' u-cf" data-cancion="' + item.id + '"><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
       $('.Musica-resultados').append(resultado)

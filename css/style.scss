@@ -83,7 +83,7 @@ input[type="reset"],
 input[type="button"] {
   display: inline-block;
   height: 38px;
-  padding: 0 30px;
+  padding: 0 20px;
   color: $c-negro;
   text-align: center;
   font-size: 1.5rem;
@@ -228,6 +228,10 @@ select:focus {
 
 .Invitado-datos {
   display: none;
+}
+.Invitado-mensaje-texto {
+  height: 200px;
+  height: 40vh;
 }
 
 /* Login */

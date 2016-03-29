@@ -18,6 +18,7 @@
   "license": "MIT",
   "description": "Conjunto de herramientas para el desarrollo con sass y minimizar ficheros.",
   "devDependencies": {
-    "gulp-uncss": "^1.0.4"
+    "gulp-uncss": "^1.0.4",
+    "gulp-webserver": "^0.9.1"
   }
 }

@@ -10,15 +10,9 @@ function initMap () {
       ]
     }, {
       featureType: 'road',
-      elementType: 'geometry',
+      elementType: 'all',
       stylers: [
         { lightness: 100 }
-      ]
-    }, {
-      featureType: 'road',
-      elementType: 'labels',
-      stylers: [
-        { visibility: 'off' }
       ]
     }
   ]
@@ -30,7 +24,7 @@ function initMap () {
   // Create a map object, and include the MapTypeId to add
   // to the map type control.
   var mapOptions = {
-    zoom: 15,
+    zoom: 16,
     center: {lat: 41.3890643, lng: 2.167363},
     // center: {lat: 41.4382338, lng: 2.1203029},
 
@@ -50,7 +44,7 @@ function initMap () {
   var can = {
     title: 'Hotel Avenida Palace',
     coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<p><strong>Can Cortada</strong></p>' + '<p><strong>Hora: </strong> 14:00h</p>',
+    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br> Ceremonia: 13:00h<br>Recepción: 14:00h</p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -76,7 +70,8 @@ function InvitadoCargar (Invitado, id) {
     'email': Invitado.email,
     'adultos': Invitado.adultos,
     'ninos': Invitado.ninos,
-    'comida': Invitado.comida
+    'comida': Invitado.comida,
+    'canciones': Invitado.canciones
   }
   localStorage.setItem('datos', JSON.stringify(datos))
   page('/invitado')
@@ -173,6 +168,80 @@ function checkButton () {
   $(this).toggleClass('checked')
   InvitadoGuardar($(this))
 }
+function MusicaPlaylist () {
+  var datos = JSON.parse(localStorage.datos)
+  if (datos.canciones) {
+    var canciones = datos.canciones.split(', ')
+    $('.Musica-mis-resultados').empty()
+    for (var i = 0; i < canciones.length; i++) {
+      var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
+      $.get(url, function (data) {
+        console.log(data)
+        var resultado = '<div class="Musica-resultado seleccionada u-cf" data-cancion="' + data.id + '"><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
+        $('.Musica-mis-resultados').append(resultado)
+        $('.Musica-resultado').on('click', MusicaBorrar)
+      })
+    }
+  }
+}
+function MusicaBuscar () {
+  var url = 'https://api.spotify.com/v1/search?query=' + $(this).val() + '&offset=0&limit=20&type=track'
+  $.get(url, function (data) {
+    // console.log(data.tracks.items[0])
+    $('.Musica-resultados').empty()
+    for (var i = 0; i < data.tracks.items.length; i++) {
+      var item = data.tracks.items[i]
+      console.log(item)
+      var datos = JSON.parse(localStorage.datos)
+      var clase = ''
+      if (datos.canciones.indexOf(item.id) !== -1) {
+        clase = 'seleccionada'
+      }
+      var resultado = '<div class="Musica-resultado ' + clase + ' u-cf" data-cancion="' + item.id + '"><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
+      $('.Musica-resultados').append(resultado)
+    }
+    $('.Musica-resultado').on('click', MusicaGuardar)
+  })
+}
+function MusicaGuardar () {
+  var datos = JSON.parse(localStorage.datos)
+  var parametro = 'canciones'
+  var valor = $(this).attr('data-cancion')
+  $(this).addClass('seleccionada')
+  if (datos[parametro]) {
+    datos[parametro] += ', ' + valor
+  } else {
+    datos[parametro] = valor
+  }
+
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase('https://boda201610.firebaseio.com/')
+    .child(datos.id)
+    .set(datos)
+}
+function MusicaBorrar () {
+  var datos = JSON.parse(localStorage.datos)
+  var parametro = 'canciones'
+  var valor = $(this).attr('data-cancion')
+  var confirmacion = window.confirm('¿quieres borrar ' + $(this).find('.Musica-resultado-nombre').text() + ' de tu lista?')
+  if (confirmacion) {
+    $(this).remove()
+    var canciones = datos.canciones.split(', ')
+    datos[parametro] = ''
+    for (var i = 0; i < canciones.length; i++) {
+      if (datos[parametro] && canciones[i] !== valor) {
+        datos[parametro] += ', ' + canciones[i]
+      } else if (canciones[i] !== valor) {
+        datos[parametro] = canciones[i]
+      }
+    }
+
+    localStorage.setItem('datos', JSON.stringify(datos))
+    new Firebase('https://boda201610.firebaseio.com/')
+      .child(datos.id)
+      .set(datos)
+  }
+}
 
 /* Routing */
 function PaginaLimpia () {
@@ -201,6 +270,15 @@ function PaginaLogin () {
   PaginaLimpia()
   $('.Login').fadeIn(1000)
 }
+function PaginaMusica () {
+  PaginaLimpia()
+  MusicaPlaylist()
+  $('.Musica').fadeIn(1000)
+}
+function PaginaMusicaBuscar () {
+  PaginaLimpia()
+  $('.Musica-Buscar').fadeIn(1000)
+}
 function Pagina404 () {
   PaginaLimpia()
   $('.Error404').fadeIn(1000)
@@ -216,6 +294,7 @@ $(function () {
   $('.button-radio').on('click', toggleButton)
   $('.button-check').on('click', checkButton)
   $('.Invitado-mensaje-enviar').on('click', InvitadoMensaje)
+  $('.Musica-input').on('keyup', MusicaBuscar)
 
   page.base('/boda')
   page('/', PaginaHome)
@@ -225,6 +304,8 @@ $(function () {
   page('/invitado/:pass', Login)
   page('/entrar', Login)
   page('/salir', Logout)
+  page('/buscarmusica', PaginaMusicaBuscar)
+  page('/musica', PaginaMusica)
   page('*', Pagina404)
   page({
     hashbang: true

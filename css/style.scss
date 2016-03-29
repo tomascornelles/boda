@@ -8,8 +8,7 @@
   - Generic Styles
   - Media Queries
 */
-Adoniesis3
-ufos3333
+
 /* –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
 /* Variables */
@@ -17,8 +16,8 @@ $c-base:#F9D298;
 $c-principal:desaturate($c-base,20%);
 $c-oscuro:desaturate(darken($c-base,20%),30%);
 $c-claro:desaturate(lighten($c-base,20%),20%);
-$c-acento:#963;
-$c-negro:darken($c-base,80%);
+$c-acento:#692F37;
+$c-negro:darken($c-acento,10%);
 $c-blanco:lighten($c-base,50%);
 
 /* –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -43,6 +42,12 @@ progress,sub,sup{vertical-align:baseline}html{font-family:sans-serif;-ms-text-si
 /* Generic styles */
 body {
   background: $c-principal;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  color: $c-negro;
+}
+a {
+  color: $c-acento;
 }
 
 .Page {
@@ -81,17 +86,17 @@ input[type="button"] {
   padding: 0 30px;
   color: $c-negro;
   text-align: center;
-  font-size: 11px;
+  font-size: 1.5rem;
   font-weight: 600;
+  border-radius: .4rem;
   line-height: 38px;
   letter-spacing: .1rem;
-  text-transform: uppercase;
+  text-transform: none;
   text-decoration: none;
   white-space: nowrap;
   background-color: $c-blanco;
-  border-radius: 2px;
   border: 1px solid $c-oscuro;
-  box-shadow: 0 2px 0 0 $c-oscuro;
+  box-shadow: .25rem .25rem 0 0 $c-oscuro;
   cursor: pointer;
   box-sizing: border-box;
 }
@@ -230,21 +235,64 @@ select:focus {
   color: #c00;
 }
 
+/* Musica */
+.Musica-resultados {
+  margin-bottom: 128px;
+}
+.Musica-resultado {
+  text-align: left;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background-color: lighten($c-principal, 5%);
+  box-shadow: 5px 5px 0 0 $c-oscuro;
+  cursor: pointer;
+}
+.Musica-resultado:hover, .Musica-resultado.seleccionada:hover {
+  background-color: lighten($c-principal, 15%);
+}
+.Musica-resultado.seleccionada {
+  background: lighten($c-principal, 5%) url(http://www.veryicon.com/icon/64/Game/Super%20Mario%201/Retro%20Star.png) no-repeat calc(100% - 16px) center;
+}
+.Musica-resultado-imagen {
+  float: left;
+  width: 96px;
+  height: 96px;
+  margin-right: 16px;
+}
+.Musica-resultado-imagen img {
+  max-width: 100%;
+}
+.Musica-resultado-nombre {
+  margin: 5px 0;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+
 /* More utilities */
 .u-text-center {
   text-align: center;
 }
+.u-hidden {
+  display:none;
+}
+.u-cf {
+  display: block;
+}
 
 .button-radio,
 .button-check {
-  padding: 0 15px;
-  box-shadow: 0 2px 0 0 $c-oscuro;
-  background: lighten($c-oscuro, 5%);
+  padding: 0 1rem;
+  font-size: 2rem;
+  font-weight: 300;
+  // box-shadow: 0 2px 0 0 $c-oscuro;
+  background: lighten($c-oscuro, 15%);
+  text-shadow: 0 -1px 0 $c-oscuro;
 }
 
 .button-radio.checked,
 .button-check.checked {
-  box-shadow: 0 2px 0 0 $c-oscuro;
+  // box-shadow: 0 2px 0 0 $c-oscuro;
   background: $c-blanco;
 }
 

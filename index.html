@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 
   <!-- Basic Page Needs
@@ -18,6 +18,7 @@
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -40,6 +41,16 @@
 
 </head>
 <body>
+<script> 
+var $buoop = {c:2};
+function $buo_f(){ 
+ var e = document.createElement("script"); 
+ e.src = "//browser-update.org/update.min.js"; 
+ document.body.appendChild(e);
+};
+try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+catch(e){window.attachEvent("onload", $buo_f)}
+</script> 
 
   <!-- Home Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -48,8 +59,8 @@
       <div class="row flex-row">
         <div class="twelve column flex-column u-text-center">
           <img src="img/cyt_fig.png" alt="" class="u-max-full-width"><br>
-          <img src="img/cyt_640.png" alt="" class="u-max-full-width">
-          <h2>13 de Agosto</h2>
+          <img src="img/cyt_src.png" alt="" class="u-max-full-width">
+          <h2>Verano 2016</h2>
         </div>
       </div>
     </div>
@@ -69,7 +80,7 @@
           <p>En el restaurante</p> 
           <h3>Hotel Avenida Palace</h3>
           <h5>Gran Via de Les Corts Catalanes, 605,<br>08007 Barcelona</h5>
-          <p><a href="./"><img src="img/cyt_640.png" alt="" class="u-max-full-width u-pull-right" width="200"></a></p>
+          <p><a href="./"><img src="img/cyt_src_mini.png" alt="" class="u-max-full-width u-pull-right" width="200"></a></p>
         </div>
       </div>
       <div class="six columns Mapa-mapa">
@@ -219,6 +230,33 @@
             </div>
 
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Music Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="Page Musica-Buscar">
+    <div class="container">
+      <div class="row flex-row">
+        <div class="twelve column flex-column u-text-center">
+        <p><a href="./musica" class="button">Volver a mi música</a></p>
+        <h3>Música</h3>
+        <input type="text" placeholder="Busca una canción" class="Musica-input u-full-width">
+        <div class="Musica-resultados"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="Page Musica">
+    <div class="container">
+      <div class="row flex-row">
+        <div class="twelve column flex-column u-text-center">
+          <p><a href="./buscarmusica" class="button">Buscar canciones</a></p>
+          <div class="Musica-mis-resultados"></div>
         </div>
       </div>
     </div>

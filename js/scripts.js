@@ -71,6 +71,7 @@ function InvitadoCargar (Invitado, id) {
     'adultos': Invitado.adultos,
     'ninos': Invitado.ninos,
     'comida': Invitado.comida,
+    'mensaje': Invitado.mensaje,
     'canciones': Invitado.canciones
   }
   localStorage.setItem('datos', JSON.stringify(datos))
@@ -78,17 +79,23 @@ function InvitadoCargar (Invitado, id) {
 }
 function InvitadoMostrar () {
   var datos = JSON.parse(localStorage.datos)
-  for (var dato in datos) {
-    if (datos[dato]) {
-      if (dato === 'nombre') {
-        $('.Invitado-' + dato).text(datos[dato])
-      } else {
-        $('.Invitado-' + dato).val(datos[dato]).closest('.Invitado-datos').show()
-      }
+
+  if (datos['confirmar'] !== undefined) { // Ha confirmado
+    if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
+    
+    if (datos['canciones'] === undefined || datos['canciones'] === '') { // Ha confirmado y no ha buscado canciones
+      $('.Musica-volver').hide()
+      $('.Musica-Buscar').fadeIn(1000)
+    } else {
+      MusicaPlaylist()
+      $('.Musica').fadeIn(1000)
     }
+  } else {
+    $('.Invitado--cargando').hide()
+    $('.Invitado-contenido').fadeIn()
+    $('.Invitado').fadeIn(1000)
   }
-  $('.Invitado--cargando').hide()
-  $('.Invitado-contenido').fadeIn()
+
 }
 function InvitadoGuardar (dato) {
   var datos = JSON.parse(localStorage.datos)
@@ -107,6 +114,14 @@ function InvitadoGuardar (dato) {
 function InvitadoMensaje () {
   var datos = JSON.parse(localStorage.datos)
   datos['mensaje'] = $('.Invitado-mensaje-texto').val()
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase('https://boda201610.firebaseio.com/')
+    .child(datos.id)
+    .set(datos)
+}
+function InvitadoConfirmar () {
+  var datos = JSON.parse(localStorage.datos)
+  datos['confirmar'] = "Confirmado"
   localStorage.setItem('datos', JSON.stringify(datos))
   new Firebase('https://boda201610.firebaseio.com/')
     .child(datos.id)
@@ -253,6 +268,8 @@ function PaginaLimpia () {
 
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()
+
+
 }
 function PaginaHome () {
   PaginaLimpia()
@@ -266,7 +283,6 @@ function PaginaMapa () {
 function PaginaInvitado () {
   PaginaLimpia()
   InvitadoMostrar()
-  $('.Invitado').fadeIn(1000)
 }
 function PaginaLogin () {
   PaginaLimpia()
@@ -296,6 +312,7 @@ $(function () {
   $('.button-radio').on('click', toggleButton)
   $('.button-check').on('click', checkButton)
   $('.Invitado-mensaje-enviar').on('click', InvitadoMensaje)
+  $('.Invitado-confirmar-enviar').on('click', InvitadoConfirmar)
   $('.Musica-input').on('keyup', MusicaBuscar)
 
   page.base('/boda')

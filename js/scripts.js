@@ -63,20 +63,28 @@ function initMap () {
 
 /* Invitado */
 function InvitadoCargar (Invitado, id) {
-  var datos = {
-    'id': id,
-    'pass': Invitado.pass,
-    'nombre': Invitado.nombre,
-    'email': Invitado.email,
-    'adultos': Invitado.adultos,
-    'ninos': Invitado.ninos,
-    'comida': Invitado.comida,
-    'mensaje': Invitado.mensaje,
-    'confirmar': Invitado.confirmar,
-    'canciones': Invitado.canciones
+  if (Invitado.admin) {
+    var datos = {
+      'admin': true
+    }
+    localStorage.setItem('datos', JSON.stringify(datos))
+    page('/admin')
+  } else {
+    var datos = {
+      'id': id,
+      'pass': Invitado.pass,
+      'nombre': Invitado.nombre,
+      'email': Invitado.email,
+      'adultos': Invitado.adultos,
+      'ninos': Invitado.ninos,
+      'comida': Invitado.comida,
+      'mensaje': Invitado.mensaje,
+      'confirmar': Invitado.confirmar,
+      'canciones': Invitado.canciones
+    }
+    localStorage.setItem('datos', JSON.stringify(datos))
+    page('/invitado')
   }
-  localStorage.setItem('datos', JSON.stringify(datos))
-  page('/invitado')
 }
 function InvitadoMostrar () {
   var datos = JSON.parse(localStorage.datos)
@@ -167,10 +175,10 @@ function Logout () {
   $('.checked').removeClass('checked')
   page('/home')
 }
-function LoginCervero (user) {
-  if (!localStorage.datos) page('/home')
+function LoginCervero (pagina) {
+  if (!localStorage.datos) window.location.href = "./"
   var datos = JSON.parse(localStorage.datos)
-  if (user == 'admin' && !datos['admin']) page('/home')
+  if (pagina === 'admin' && !datos['admin']) window.location.href = "./"
 }
 
 /* Musica */
@@ -251,6 +259,14 @@ function MusicaBorrar () {
   }
 }
 
+/* Admin */
+function AdminListar (ctx) {
+  console.log(ctx.params.consulta)
+}
+function AdminMostrar (ctx) {
+  console.log(ctx.params.consulta)
+}
+
 /* Utilidades */
 function toggleDestino () {
   $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
@@ -313,6 +329,18 @@ function PaginaAdmin () {
   PaginaLimpia()
   $('.Admin').fadeIn(1000)
 }
+function PaginaAdminListar () {
+  LoginCervero('admin')
+  PaginaLimpia()
+  AdminListar()
+  $('.Admin').fadeIn(1000)
+}
+function PaginaAdminMostrar () {
+  LoginCervero('admin')
+  PaginaLimpia()
+  AdminMostrar()
+  $('.Admin').fadeIn(1000)
+}
 function Pagina404 () {
   PaginaLimpia()
   $('.Error404').fadeIn(1000)
@@ -346,7 +374,9 @@ $(function () {
   page('/buscarmusica', PaginaMusicaBuscar)
   page('/musica', PaginaMusica)
   page('/admin', PaginaAdmin)
-  page('*', Pagina404)
+  page('/admin/listar/:consulta', AdminListar)
+  page('/admin/mostrar/:consulta', AdminMostrar)
+  page('/*', Pagina404)
   page({
     hashbang: true
   })

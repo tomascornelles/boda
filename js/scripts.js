@@ -167,6 +167,9 @@ function Logout () {
   $('.checked').removeClass('checked')
   page('/home')
 }
+function LoginCervero () {
+  if (!localStorage.datos) page('/home')
+}
 
 /* Utilidades */
 function toggleDestino () {
@@ -270,14 +273,17 @@ function PaginaLimpia () {
 }
 function PaginaHome () {
   PaginaLimpia()
+  if (!localStorage.datos) $('.Menu .cervero').hide()
   $('.Home').fadeIn(1000)
 }
 function PaginaMapa () {
+  LoginCervero()
   PaginaLimpia()
   $('.Mapa').fadeIn(1000)
   initMap()
 }
 function PaginaInvitado () {
+  LoginCervero()
   PaginaLimpia()
   InvitadoMostrar()
 }
@@ -286,13 +292,20 @@ function PaginaLogin () {
   $('.Login').fadeIn(1000)
 }
 function PaginaMusica () {
+  LoginCervero()
   PaginaLimpia()
   MusicaPlaylist()
   $('.Musica').fadeIn(1000)
 }
 function PaginaMusicaBuscar () {
+  LoginCervero()
   PaginaLimpia()
   $('.Musica-Buscar').fadeIn(1000)
+}
+function PaginaAdmin () {
+  LoginCervero()
+  PaginaLimpia()
+  $('.Admin').fadeIn(1000)
 }
 function Pagina404 () {
   PaginaLimpia()
@@ -322,6 +335,7 @@ $(function () {
   page('/salir', Logout)
   page('/buscarmusica', PaginaMusicaBuscar)
   page('/musica', PaginaMusica)
+  page('/admin', PaginaAdmin)
   page('*', Pagina404)
   page({
     hashbang: true

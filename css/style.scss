@@ -66,6 +66,11 @@ a {
 .Menu p {
   margin: 1em;
 }
+.Menu-toggle {
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 .flex-row {
   min-height: 100vh;
@@ -284,6 +289,9 @@ select:focus {
 .u-cf {
   display: block;
 }
+.u-desktop {
+  display:none
+}
 
 .button-radio,
 .button-check {
@@ -307,6 +315,12 @@ select:focus {
 
 /* Larger than phablet */
 @media (min-width:36em) {
+  .u-desktop {
+    display: block;
+  }
+  .u-mobile {
+    display: none;
+  }
 }
 
 /* Larger than tablet */

@@ -167,24 +167,13 @@ function Logout () {
   $('.checked').removeClass('checked')
   page('/home')
 }
-function LoginCervero () {
+function LoginCervero (user) {
   if (!localStorage.datos) page('/home')
+  var datos = JSON.parse(localStorage.datos)
+  if (user == 'admin' && !datos['admin']) page('/home')
 }
 
-/* Utilidades */
-function toggleDestino () {
-  $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
-  $($(this).attr('data-destino')).slideDown(400)
-}
-function toggleButton () {
-  if ($(this).hasClass('checked')) $(this).removeClass('checked')
-  else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
-  InvitadoGuardar($(this))
-}
-function checkButton () {
-  $(this).toggleClass('checked')
-  InvitadoGuardar($(this))
-}
+/* Musica */
 function MusicaPlaylist () {
   var datos = JSON.parse(localStorage.datos)
   if (datos.canciones) {
@@ -262,18 +251,35 @@ function MusicaBorrar () {
   }
 }
 
+/* Utilidades */
+function toggleDestino () {
+  $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
+  $($(this).attr('data-destino')).slideDown(400)
+}
+function toggleButton () {
+  if ($(this).hasClass('checked')) $(this).removeClass('checked')
+  else $(this).addClass('checked').siblings('.button-radio').removeClass('checked')
+  InvitadoGuardar($(this))
+}
+function checkButton () {
+  $(this).toggleClass('checked')
+  InvitadoGuardar($(this))
+}
+
 /* Routing */
 function PaginaLimpia () {
   $('.Page').hide()
   $('.Page-section').hide()
   $('.error').hide()
 
+  $('.Menu a').show()
+  if (!localStorage.datos) $('.Menu .cervero').hide()
+
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()
 }
 function PaginaHome () {
   PaginaLimpia()
-  if (!localStorage.datos) $('.Menu .cervero').hide()
   $('.Home').fadeIn(1000)
 }
 function PaginaMapa () {
@@ -303,7 +309,7 @@ function PaginaMusicaBuscar () {
   $('.Musica-Buscar').fadeIn(1000)
 }
 function PaginaAdmin () {
-  LoginCervero()
+  LoginCervero('admin')
   PaginaLimpia()
   $('.Admin').fadeIn(1000)
 }
@@ -316,6 +322,10 @@ function Pagina404 () {
 $(function () {
   $(window).on('resize', function () {
     initMap()
+  })
+
+  $('.Menu-toggle').on('click', function() {
+    $('.Menu .u-desktop').slideToggle()
   })
 
   $('.button-submit').on('click', toggleDestino)

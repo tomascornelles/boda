@@ -261,10 +261,35 @@ function MusicaBorrar () {
 
 /* Admin */
 function AdminListar (ctx) {
-  console.log(ctx.params.consulta)
+  var consulta = ctx.params.consulta
+
+  if (consulta === 'confirmados') {}
+  var resultado = new Firebase('https://boda201610.firebaseio.com/')
+    .orderByChild('confirmar')
+    .equalTo('Confirmado')
+    .once('value', function (snap) {
+      if (snap.val()) {
+        var res = snap.val()
+        for (var i in res) {
+          var Invitado = res[i]
+          AdminMostrarInvitado(Invitado)
+        }
+      } else {
+        $('.Admin .mensajes').append('No hay resultados')
+      }
+    })
+
+    $('.Admin').fadeIn(1000)
 }
 function AdminMostrar (ctx) {
   console.log(ctx.params.consulta)
+}
+function AdminMostrarInvitado (Invitado) {
+  var cadena = ""
+  if (Invitado.adultos) cadena += Invitado.adultos + ' Adultos'
+  if (Invitado.adultos && Invitado.ninos) cadena += ' y '
+  if (Invitado.ninos) cadena += Invitado.ninos + ' Niños'
+  $('.Admin-listado').append('<li><strong>'+Invitado.nombre+': </strong>' + cadena + '</li>')
 }
 
 /* Utilidades */

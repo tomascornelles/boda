@@ -44,7 +44,7 @@ function initMap () {
   var can = {
     title: 'Hotel Avenida Palace',
     coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br> Ceremonia: 13:00h<br>Recepción: 14:00h</p>',
+    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br> Ceremonia: 18:00h<br>Recepción: 20:00h</p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -72,6 +72,7 @@ function InvitadoCargar (Invitado, id) {
     'ninos': Invitado.ninos,
     'comida': Invitado.comida,
     'mensaje': Invitado.mensaje,
+    'confirmar': Invitado.confirmar,
     'canciones': Invitado.canciones
   }
   localStorage.setItem('datos', JSON.stringify(datos))
@@ -82,7 +83,6 @@ function InvitadoMostrar () {
 
   if (datos['confirmar'] !== undefined) { // Ha confirmado
     if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
-    
     if (datos['canciones'] === undefined || datos['canciones'] === '') { // Ha confirmado y no ha buscado canciones
       $('.Musica-volver').hide()
       $('.Musica-Buscar').fadeIn(1000)
@@ -95,7 +95,6 @@ function InvitadoMostrar () {
     $('.Invitado-contenido').fadeIn()
     $('.Invitado').fadeIn(1000)
   }
-
 }
 function InvitadoGuardar (dato) {
   var datos = JSON.parse(localStorage.datos)
@@ -121,7 +120,7 @@ function InvitadoMensaje () {
 }
 function InvitadoConfirmar () {
   var datos = JSON.parse(localStorage.datos)
-  datos['confirmar'] = "Confirmado"
+  datos['confirmar'] = 'Confirmado'
   localStorage.setItem('datos', JSON.stringify(datos))
   new Firebase('https://boda201610.firebaseio.com/')
     .child(datos.id)
@@ -268,8 +267,6 @@ function PaginaLimpia () {
 
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()
-
-
 }
 function PaginaHome () {
   PaginaLimpia()

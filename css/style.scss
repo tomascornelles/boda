@@ -61,16 +61,23 @@ a {
   text-align: center;
   z-index: 20;
   background-color: $c-claro;
+  box-shadow: 0 0 5px 0 rgba(0,0,0,.5);
 }
 
 .Menu p {
   margin: 1em;
+}
+.Menu-toggle {
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .flex-row {
   min-height: 100vh;
   display: flex;
   padding: 25px 0;
+  box-sizing: border-box;
 }
 
 .flex-column {
@@ -199,10 +206,12 @@ select:focus {
 .Mapa .Mapa-mapa {
   height: 100vh;
   position: relative;
+  width: 100%;
 }
 
 .Mapa .Mapa-info {
   min-height: 100vh;
+  width: 100%;
 }
 
 .Mapa-info-interior {
@@ -250,7 +259,6 @@ select:focus {
   margin-bottom: 1rem;
   background-color: lighten($c-principal, 5%);
   box-shadow: 5px 5px 0 0 $c-oscuro;
-  cursor: pointer;
 }
 .Musica-resultado:hover, .Musica-resultado.seleccionada:hover {
   background-color: lighten($c-principal, 15%);
@@ -272,7 +280,29 @@ select:focus {
   font-size: 2rem;
   font-weight: 700;
 }
+.Musica-resultado-remove, .Musica-resultado-add {
+  float: right;
+  margin: 10px;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  cursor: pointer;
+}
+.Musica-resultado-remove {
+  background: url(../img/star-on.png) center center no-repeat;
+}
+.Musica-resultado-add {
+  background: url(../img/star-off.png) center center no-repeat;
+  opacity: .75;
+}
+.Musica-resultado-add.seleccionada {
+  background: $c-principal;
+}
 
+/* Admin */
+.Admin-listado {
+  text-align: left;
+}
 
 /* More utilities */
 .u-text-center {
@@ -283,6 +313,9 @@ select:focus {
 }
 .u-cf {
   display: block;
+}
+.u-desktop {
+  display:none;
 }
 
 .button-radio,
@@ -311,6 +344,13 @@ select:focus {
 
 /* Larger than tablet */
 @media (min-width:48em) {
+
+  .u-desktop {
+    display: block;
+  }
+  .u-mobile {
+    display: none;
+  }
 
   /* Mapa */
   .Mapa .Mapa-mapa {

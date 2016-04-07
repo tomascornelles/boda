@@ -74,10 +74,11 @@ catch(e){window.attachEvent("onload", $buo_f)}
       <div class="six columns u-text-center Mapa-info">
         <div class="Mapa-info-interior">
           <p>Os esperamos el</p>
-          <h2>13 de Agosto de 2016</h2>
-          <h2><small>a las </small>18:00h</h2>
-          <h3>Hotel Avenida Palace</h3>
-          <h5>Gran Via de Les Corts Catalanes 605,<br>08007 Barcelona</h5>
+          <h3>13 de Agosto de 2016</h3>
+          <h4><small>a las </small>19:30h</h4>
+          <p>Si llegáis antes nos podremos tomar unas fotos juntos ;)</p>
+          <h4>Hotel Avenida Palace</h4>
+          <h6>Gran Via de Les Corts Catalanes 605,<br>08007 Barcelona</h6>
           <p><a href="./"><img src="img/cyt_src_mini.png" alt="" class="u-max-full-width u-pull-right" width="200"></a></p>
         </div>
       </div>
@@ -194,6 +195,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
                   <a class="button button-check" data-parametro="comida">Vegana</a>
                   <a class="button button-check" data-parametro="comida">Sin gluten</a>
                   <a class="button button-check" data-parametro="comida">Sin sal</a>
+                  <a class="button button-check" data-parametro="comida">Baja en colesterol</a>
+                  <a class="button button-check" data-parametro="comida">Alergias alimenticias</a>
                 </div>
               </div>
               <div class="row">
@@ -256,7 +259,9 @@ catch(e){window.attachEvent("onload", $buo_f)}
       <div class="row flex-row">
         <div class="twelve column flex-column u-text-center">
           <p><a href="./buscarmusica" class="button">Buscar canciones</a></p>
-          <div class="Musica-mis-resultados"></div>
+          <div class="Musica-mis-resultados">
+
+          </div>
         </div>
       </div>
     </div>
@@ -267,8 +272,8 @@ catch(e){window.attachEvent("onload", $buo_f)}
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="Page Error404">
     <div class="container">
-      <div class="row">
-        <div class="twelve column u-text-center">
+      <div class="row flex-row">
+        <div class="twelve column flex-column u-text-center">
           <!-- <img src="img/cyt_fig.png" alt="" class="u-max-full-width"><br>
           <img src="img/cyt_640.png" alt="" class="u-max-full-width"> -->
           <h2>No sabemos que estás buscando ;)</h2>
@@ -280,17 +285,38 @@ catch(e){window.attachEvent("onload", $buo_f)}
     </div>
   </div>
 
+  <!-- Admin Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="Page Admin">
+    <div class="container">
+      <div class="row flex-row">
+        <div class="twelve column flex-column u-text-center">
+          <p class="mensajes"></p>
+          <ul class="Admin-listado"></ul>
+          <div class="Admin-acciones">
+            <a href="./admin/listar/confirmados" class="button link">Confirmados</a>
+            <a href="./admin/listar/comida" class="button link">Comida especial</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Menu Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="Menu">
     <div class="row">
       <div class="twelve column u-text-center">
-        <p>
-          <a href="./" class="button link">Home</a>
-          <a href="./mapa" class="button link">Mapa</a>
-          <a href="./invitado" class="button link">Invitado</a>
-        </p>
+        <p class="Menu-toggle u-mobile">MENÚ</p>
+        <div class="u-desktop">
+          <p>
+            <a href="./" class="button link cervero">Inicio</a>
+            <a href="./mapa" class="button link cervero">Información</a>
+            <a href="./invitado" class="button link">Área de Invitado</a>
+          </p>
+          <p><a href="./salir" class="cervero">Salir</a></p>
+        </div>
       </div>
     </div>
   </div>

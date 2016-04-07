@@ -44,7 +44,7 @@ function initMap () {
   var can = {
     title: 'Hotel Avenida Palace',
     coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br> Ceremonia: 18:00h<br>Recepción: 20:00h</p>',
+    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -63,33 +63,36 @@ function initMap () {
 
 /* Invitado */
 function InvitadoCargar (Invitado, id) {
-  var datos = {
-    'id': id,
-    'pass': Invitado.pass,
-    'nombre': Invitado.nombre,
-    'email': Invitado.email,
-    'adultos': Invitado.adultos,
-    'ninos': Invitado.ninos,
-    'comida': Invitado.comida,
-    'mensaje': Invitado.mensaje,
-    'confirmar': Invitado.confirmar,
-    'canciones': Invitado.canciones
+  var datos
+  if (Invitado.admin) {
+    datos = {
+      'admin': true
+    }
+    localStorage.setItem('datos', JSON.stringify(datos))
+    page('/admin')
+  } else {
+    datos = {
+      'id': id,
+      'pass': Invitado.pass,
+      'nombre': Invitado.nombre,
+      'email': Invitado.email,
+      'adultos': Invitado.adultos,
+      'ninos': Invitado.ninos,
+      'comida': Invitado.comida,
+      'mensaje': Invitado.mensaje,
+      'confirmar': Invitado.confirmar,
+      'canciones': Invitado.canciones
+    }
+    localStorage.setItem('datos', JSON.stringify(datos))
+    page('/invitado')
   }
-  localStorage.setItem('datos', JSON.stringify(datos))
-  page('/invitado')
 }
 function InvitadoMostrar () {
   var datos = JSON.parse(localStorage.datos)
 
   if (datos['confirmar'] !== undefined) { // Ha confirmado
     if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
-    if (datos['canciones'] === undefined || datos['canciones'] === '') { // Ha confirmado y no ha buscado canciones
-      $('.Musica-volver').hide()
-      $('.Musica-Buscar').fadeIn(1000)
-    } else {
-      MusicaPlaylist()
-      $('.Musica').fadeIn(1000)
-    }
+    MusicaPlaylist()
   } else {
     $('.Invitado--cargando').hide()
     $('.Invitado-contenido').fadeIn()
@@ -167,6 +170,123 @@ function Logout () {
   $('.checked').removeClass('checked')
   page('/home')
 }
+function LoginCervero (pagina) {
+  if (!localStorage.datos) window.location.href = './'
+  var datos = JSON.parse(localStorage.datos)
+  if (pagina === 'admin' && !datos['admin']) window.location.href = './'
+}
+
+/* Musica */
+function MusicaPlaylist () {
+  var datos = JSON.parse(localStorage.datos)
+  if (datos.canciones) {
+    $('.Musica-mis-resultados').empty()
+    var canciones = datos.canciones.split(', ')
+    for (var i = 0; i < canciones.length; i++) {
+      var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
+      $.get(url, function (data) {
+        var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + data.id + '" class="Musica-resultado-remove"></a><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
+        $('.Musica-mis-resultados').append(resultado)
+        $('.Musica-resultado-add').on('click', MusicaGuardar)
+        $('.Musica-resultado-remove').on('click', MusicaBorrar)
+      })
+    }
+  } else {
+    $('.Musica-mis-resultados').html('<h3>¿Nos ayudas con la música de la fiesta?</h3><p>¡Sugierenos las canciones que más te gusten!</p>')
+  }
+  $('.Musica').fadeIn(1000)
+}
+function MusicaBuscar () {
+  var url = 'https://api.spotify.com/v1/search?query=' + $(this).val() + '&offset=0&limit=20&type=track'
+  $.get(url, function (data) {
+    $('.Musica-resultados').empty()
+    for (var i = 0; i < data.tracks.items.length; i++) {
+      var item = data.tracks.items[i]
+      var datos = JSON.parse(localStorage.datos)
+      var clase = 'Musica-resultado-add'
+      if (datos.canciones) {
+        if (datos.canciones.indexOf(item.id) !== -1) {
+          clase = 'Musica-resultado-remove'
+        }
+      }
+      var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + item.id + '" class="' + clase + '"></a><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
+      $('.Musica-resultados').append(resultado)
+    }
+    $('.Musica-resultado-add').on('click', MusicaGuardar)
+    $('.Musica-resultado-remove').on('click', MusicaBorrar)
+  })
+}
+function MusicaGuardar () {
+  var datos = JSON.parse(localStorage.datos)
+  var parametro = 'canciones'
+  var valor = $(this).attr('data-cancion')
+  $(this).addClass('Musica-resultado-remove').removeClass('Musica-resultado-add')
+  if (datos[parametro]) {
+    datos[parametro] += ', ' + valor
+  } else {
+    datos[parametro] = valor
+  }
+  $('.Musica-volver').slideDown()
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase('https://boda201610.firebaseio.com/')
+    .child(datos.id)
+    .set(datos)
+  $('.Musica-resultado-remove').on('click', MusicaBorrar)
+}
+function MusicaBorrar () {
+  var datos = JSON.parse(localStorage.datos)
+  var parametro = 'canciones'
+  var valor = $(this).attr('data-cancion')
+  // $(this).closest('.Musica-resultado').remove()
+  $(this).addClass('Musica-resultado-add').removeClass('Musica-resultado-remove')
+  var canciones = datos.canciones.split(', ')
+  datos[parametro] = ''
+  for (var i = 0; i < canciones.length; i++) {
+    if (datos[parametro] && canciones[i] !== valor) {
+      datos[parametro] += ', ' + canciones[i]
+    } else if (canciones[i] !== valor) {
+      datos[parametro] = canciones[i]
+    }
+  }
+
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase('https://boda201610.firebaseio.com/')
+    .child(datos.id)
+    .set(datos)
+  $('.Musica-resultado-add').on('click', MusicaGuardar)
+}
+
+/* Admin */
+function AdminListar (ctx) {
+  var consulta = ctx.params.consulta
+
+  if (consulta === 'confirmados') {}
+  new Firebase('https://boda201610.firebaseio.com/')
+    .orderByChild('confirmar')
+    .equalTo('Confirmado')
+    .once('value', function (snap) {
+      if (snap.val()) {
+        var res = snap.val()
+        for (var i in res) {
+          var Invitado = res[i]
+          AdminMostrarInvitado(Invitado)
+        }
+      } else {
+        $('.Admin .mensajes').append('No hay resultados')
+      }
+    })
+  $('.Admin').fadeIn(1000)
+}
+function AdminMostrar (ctx) {
+  console.log(ctx.params.consulta)
+}
+function AdminMostrarInvitado (Invitado) {
+  var cadena = ''
+  if (Invitado.adultos) cadena += Invitado.adultos + ' Adultos'
+  if (Invitado.adultos && Invitado.ninos) cadena += ' y '
+  if (Invitado.ninos) cadena += Invitado.ninos + ' Niños'
+  $('.Admin-listado').append('<li><strong>' + Invitado.nombre + ': </strong>' + cadena + '</li>')
+}
 
 /* Utilidades */
 function toggleDestino () {
@@ -182,88 +302,18 @@ function checkButton () {
   $(this).toggleClass('checked')
   InvitadoGuardar($(this))
 }
-function MusicaPlaylist () {
-  var datos = JSON.parse(localStorage.datos)
-  if (datos.canciones) {
-    var canciones = datos.canciones.split(', ')
-    $('.Musica-mis-resultados').empty()
-    for (var i = 0; i < canciones.length; i++) {
-      var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
-      $.get(url, function (data) {
-        console.log(data)
-        var resultado = '<div class="Musica-resultado seleccionada u-cf" data-cancion="' + data.id + '"><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
-        $('.Musica-mis-resultados').append(resultado)
-        $('.Musica-resultado').on('click', MusicaBorrar)
-      })
-    }
-  }
-}
-function MusicaBuscar () {
-  var url = 'https://api.spotify.com/v1/search?query=' + $(this).val() + '&offset=0&limit=20&type=track'
-  $.get(url, function (data) {
-    // console.log(data.tracks.items[0])
-    $('.Musica-resultados').empty()
-    for (var i = 0; i < data.tracks.items.length; i++) {
-      var item = data.tracks.items[i]
-      console.log(item)
-      var datos = JSON.parse(localStorage.datos)
-      var clase = ''
-      if (datos.canciones) {
-        if (datos.canciones.indexOf(item.id) !== -1) {
-          clase = 'seleccionada'
-        }
-      }
-      var resultado = '<div class="Musica-resultado ' + clase + ' u-cf" data-cancion="' + item.id + '"><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
-      $('.Musica-resultados').append(resultado)
-    }
-    $('.Musica-resultado').on('click', MusicaGuardar)
-  })
-}
-function MusicaGuardar () {
-  var datos = JSON.parse(localStorage.datos)
-  var parametro = 'canciones'
-  var valor = $(this).attr('data-cancion')
-  $(this).addClass('seleccionada')
-  if (datos[parametro]) {
-    datos[parametro] += ', ' + valor
-  } else {
-    datos[parametro] = valor
-  }
-  $('.Musica-volver').slideDown()
-  localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase('https://boda201610.firebaseio.com/')
-    .child(datos.id)
-    .set(datos)
-}
-function MusicaBorrar () {
-  var datos = JSON.parse(localStorage.datos)
-  var parametro = 'canciones'
-  var valor = $(this).attr('data-cancion')
-  var confirmacion = window.confirm('¿quieres borrar ' + $(this).find('.Musica-resultado-nombre').text() + ' de tu lista?')
-  if (confirmacion) {
-    $(this).remove()
-    var canciones = datos.canciones.split(', ')
-    datos[parametro] = ''
-    for (var i = 0; i < canciones.length; i++) {
-      if (datos[parametro] && canciones[i] !== valor) {
-        datos[parametro] += ', ' + canciones[i]
-      } else if (canciones[i] !== valor) {
-        datos[parametro] = canciones[i]
-      }
-    }
-
-    localStorage.setItem('datos', JSON.stringify(datos))
-    new Firebase('https://boda201610.firebaseio.com/')
-      .child(datos.id)
-      .set(datos)
-  }
-}
 
 /* Routing */
 function PaginaLimpia () {
   $('.Page').hide()
   $('.Page-section').hide()
   $('.error').hide()
+  $('.Musica-resultados').empty()
+  $('.Musica-input').val('')
+  $('.Menu .u-desktop').css({'display': ''})
+
+  $('.Menu a').show()
+  if (!localStorage.datos) $('.cervero').hide()
 
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()
@@ -273,11 +323,13 @@ function PaginaHome () {
   $('.Home').fadeIn(1000)
 }
 function PaginaMapa () {
+  LoginCervero()
   PaginaLimpia()
   $('.Mapa').fadeIn(1000)
   initMap()
 }
 function PaginaInvitado () {
+  LoginCervero()
   PaginaLimpia()
   InvitadoMostrar()
 }
@@ -286,13 +338,31 @@ function PaginaLogin () {
   $('.Login').fadeIn(1000)
 }
 function PaginaMusica () {
+  LoginCervero()
   PaginaLimpia()
   MusicaPlaylist()
-  $('.Musica').fadeIn(1000)
 }
 function PaginaMusicaBuscar () {
+  LoginCervero()
   PaginaLimpia()
   $('.Musica-Buscar').fadeIn(1000)
+}
+function PaginaAdmin () {
+  LoginCervero('admin')
+  PaginaLimpia()
+  $('.Admin').fadeIn(1000)
+}
+function PaginaAdminListar () {
+  LoginCervero('admin')
+  PaginaLimpia()
+  AdminListar()
+  $('.Admin').fadeIn(1000)
+}
+function PaginaAdminMostrar () {
+  LoginCervero('admin')
+  PaginaLimpia()
+  AdminMostrar()
+  $('.Admin').fadeIn(1000)
 }
 function Pagina404 () {
   PaginaLimpia()
@@ -303,6 +373,11 @@ function Pagina404 () {
 $(function () {
   $(window).on('resize', function () {
     initMap()
+    $('.Menu .u-desktop').css({'display': ''})
+  })
+
+  $('.Menu-toggle').on('click', function () {
+    $('.Menu .u-desktop').slideToggle()
   })
 
   $('.button-submit').on('click', toggleDestino)
@@ -318,11 +393,13 @@ $(function () {
   page('/mapa', PaginaMapa)
   page('/invitado', Login)
   page('/invitado/:pass', Login)
-  page('/entrar', Login)
   page('/salir', Logout)
-  page('/buscarmusica', PaginaMusicaBuscar)
   page('/musica', PaginaMusica)
-  page('*', Pagina404)
+  page('/buscarmusica', PaginaMusicaBuscar)
+  page('/admin', PaginaAdmin)
+  page('/admin/listar/:consulta', AdminListar)
+  page('/admin/mostrar/:consulta', AdminMostrar)
+  page('/*', Pagina404)
   page({
     hashbang: true
   })

@@ -44,7 +44,7 @@ function initMap () {
   var can = {
     title: 'Hotel Avenida Palace',
     coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br> Ceremonia: 18:00h<br>Recepción: 20:00h</p>',
+    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -63,14 +63,15 @@ function initMap () {
 
 /* Invitado */
 function InvitadoCargar (Invitado, id) {
+  var datos
   if (Invitado.admin) {
-    var datos = {
+    datos = {
       'admin': true
     }
     localStorage.setItem('datos', JSON.stringify(datos))
     page('/admin')
   } else {
-    var datos = {
+    datos = {
       'id': id,
       'pass': Invitado.pass,
       'nombre': Invitado.nombre,
@@ -91,13 +92,8 @@ function InvitadoMostrar () {
 
   if (datos['confirmar'] !== undefined) { // Ha confirmado
     if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
-    if (datos['canciones'] === undefined || datos['canciones'] === '') { // Ha confirmado y no ha buscado canciones
-      $('.Musica-volver').hide()
-      $('.Musica-Buscar').fadeIn(1000)
-    } else {
-      MusicaPlaylist()
-      $('.Musica').fadeIn(1000)
-    }
+    MusicaPlaylist()
+    $('.Musica').fadeIn(1000)
   } else {
     $('.Invitado--cargando').hide()
     $('.Invitado-contenido').fadeIn()
@@ -176,9 +172,9 @@ function Logout () {
   page('/home')
 }
 function LoginCervero (pagina) {
-  if (!localStorage.datos) window.location.href = "./"
+  if (!localStorage.datos) window.location.href = './'
   var datos = JSON.parse(localStorage.datos)
-  if (pagina === 'admin' && !datos['admin']) window.location.href = "./"
+  if (pagina === 'admin' && !datos['admin']) window.location.href = './'
 }
 
 /* Musica */
@@ -190,23 +186,22 @@ function MusicaPlaylist () {
     for (var i = 0; i < canciones.length; i++) {
       var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
       $.get(url, function (data) {
-        console.log(data)
         var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + data.id + '" class="Musica-resultado-remove"></a><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
         $('.Musica-mis-resultados').append(resultado)
         $('.Musica-resultado-add').on('click', MusicaGuardar)
         $('.Musica-resultado-remove').on('click', MusicaBorrar)
       })
     }
+  } else {
+    $('.Musica-mis-resultados').html('<h3>¿Nos ayudas con la música de la fiesta?</h3><p>¡Sugierenos las canciones que más te gusten!</p>')
   }
 }
 function MusicaBuscar () {
   var url = 'https://api.spotify.com/v1/search?query=' + $(this).val() + '&offset=0&limit=20&type=track'
   $.get(url, function (data) {
-    // console.log(data.tracks.items[0])
     $('.Musica-resultados').empty()
     for (var i = 0; i < data.tracks.items.length; i++) {
       var item = data.tracks.items[i]
-      console.log(item)
       var datos = JSON.parse(localStorage.datos)
       var clase = 'Musica-resultado-add'
       if (datos.canciones) {
@@ -266,7 +261,7 @@ function AdminListar (ctx) {
   var consulta = ctx.params.consulta
 
   if (consulta === 'confirmados') {}
-  var resultado = new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201610.firebaseio.com/')
     .orderByChild('confirmar')
     .equalTo('Confirmado')
     .once('value', function (snap) {
@@ -280,18 +275,17 @@ function AdminListar (ctx) {
         $('.Admin .mensajes').append('No hay resultados')
       }
     })
-
-    $('.Admin').fadeIn(1000)
+  $('.Admin').fadeIn(1000)
 }
 function AdminMostrar (ctx) {
   console.log(ctx.params.consulta)
 }
 function AdminMostrarInvitado (Invitado) {
-  var cadena = ""
+  var cadena = ''
   if (Invitado.adultos) cadena += Invitado.adultos + ' Adultos'
   if (Invitado.adultos && Invitado.ninos) cadena += ' y '
   if (Invitado.ninos) cadena += Invitado.ninos + ' Niños'
-  $('.Admin-listado').append('<li><strong>'+Invitado.nombre+': </strong>' + cadena + '</li>')
+  $('.Admin-listado').append('<li><strong>' + Invitado.nombre + ': </strong>' + cadena + '</li>')
 }
 
 /* Utilidades */
@@ -322,7 +316,6 @@ function PaginaLimpia () {
 
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()
-
 }
 function PaginaHome () {
   PaginaLimpia()
@@ -382,7 +375,7 @@ $(function () {
     initMap()
   })
 
-  $('.Menu-toggle').on('click', function() {
+  $('.Menu-toggle').on('click', function () {
     $('.Menu .u-desktop').slideToggle()
   })
 

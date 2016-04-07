@@ -76,6 +76,7 @@ a {
   min-height: 100vh;
   display: flex;
   padding: 25px 0;
+  box-sizing: border-box;
 }
 
 .flex-column {
@@ -278,7 +279,7 @@ select:focus {
 }
 .Musica-resultado-remove, .Musica-resultado-add {
   float: right;
-  margin: 15px;
+  margin: 10px;
   width: 32px;
   height: 32px;
   display: inline-block;

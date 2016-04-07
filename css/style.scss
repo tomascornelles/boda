@@ -61,6 +61,7 @@ a {
   text-align: center;
   z-index: 20;
   background-color: $c-claro;
+  box-shadow: 0 0 5px 0 rgba(0,0,0,.5);
 }
 
 .Menu p {
@@ -205,10 +206,12 @@ select:focus {
 .Mapa .Mapa-mapa {
   height: 100vh;
   position: relative;
+  width: 100%;
 }
 
 .Mapa .Mapa-info {
   min-height: 100vh;
+  width: 100%;
 }
 
 .Mapa-info-interior {
@@ -312,7 +315,7 @@ select:focus {
   display: block;
 }
 .u-desktop {
-  display:none
+  display:none;
 }
 
 .button-radio,
@@ -337,16 +340,17 @@ select:focus {
 
 /* Larger than phablet */
 @media (min-width:36em) {
+}
+
+/* Larger than tablet */
+@media (min-width:48em) {
+
   .u-desktop {
     display: block;
   }
   .u-mobile {
     display: none;
   }
-}
-
-/* Larger than tablet */
-@media (min-width:48em) {
 
   /* Mapa */
   .Mapa .Mapa-mapa {

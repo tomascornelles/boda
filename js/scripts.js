@@ -93,7 +93,6 @@ function InvitadoMostrar () {
   if (datos['confirmar'] !== undefined) { // Ha confirmado
     if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
     MusicaPlaylist()
-    $('.Musica').fadeIn(1000)
   } else {
     $('.Invitado--cargando').hide()
     $('.Invitado-contenido').fadeIn()
@@ -181,8 +180,8 @@ function LoginCervero (pagina) {
 function MusicaPlaylist () {
   var datos = JSON.parse(localStorage.datos)
   if (datos.canciones) {
-    var canciones = datos.canciones.split(', ')
     $('.Musica-mis-resultados').empty()
+    var canciones = datos.canciones.split(', ')
     for (var i = 0; i < canciones.length; i++) {
       var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
       $.get(url, function (data) {
@@ -195,6 +194,7 @@ function MusicaPlaylist () {
   } else {
     $('.Musica-mis-resultados').html('<h3>¿Nos ayudas con la música de la fiesta?</h3><p>¡Sugierenos las canciones que más te gusten!</p>')
   }
+  $('.Musica').fadeIn(1000)
 }
 function MusicaBuscar () {
   var url = 'https://api.spotify.com/v1/search?query=' + $(this).val() + '&offset=0&limit=20&type=track'
@@ -310,6 +310,7 @@ function PaginaLimpia () {
   $('.error').hide()
   $('.Musica-resultados').empty()
   $('.Musica-input').val('')
+  $('.Menu .u-desktop').css({'display': ''})
 
   $('.Menu a').show()
   if (!localStorage.datos) $('.cervero').hide()
@@ -340,7 +341,6 @@ function PaginaMusica () {
   LoginCervero()
   PaginaLimpia()
   MusicaPlaylist()
-  $('.Musica').fadeIn(1000)
 }
 function PaginaMusicaBuscar () {
   LoginCervero()
@@ -373,6 +373,7 @@ function Pagina404 () {
 $(function () {
   $(window).on('resize', function () {
     initMap()
+    $('.Menu .u-desktop').css({'display': ''})
   })
 
   $('.Menu-toggle').on('click', function () {

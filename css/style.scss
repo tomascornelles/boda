@@ -255,7 +255,6 @@ select:focus {
   margin-bottom: 1rem;
   background-color: lighten($c-principal, 5%);
   box-shadow: 5px 5px 0 0 $c-oscuro;
-  cursor: pointer;
 }
 .Musica-resultado:hover, .Musica-resultado.seleccionada:hover {
   background-color: lighten($c-principal, 15%);
@@ -276,6 +275,24 @@ select:focus {
   margin: 5px 0;
   font-size: 2rem;
   font-weight: 700;
+}
+.Musica-resultado-remove, .Musica-resultado-add {
+  float: right;
+  margin: 15px;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  cursor: pointer;
+}
+.Musica-resultado-remove {
+  background: url(../img/star-on.png) center center no-repeat;
+}
+.Musica-resultado-add {
+  background: url(../img/star-off.png) center center no-repeat;
+  opacity: .75;
+}
+.Musica-resultado-add.seleccionada {
+  background: $c-principal;
 }
 
 /* Admin */

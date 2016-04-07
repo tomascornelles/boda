@@ -191,9 +191,10 @@ function MusicaPlaylist () {
       var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
       $.get(url, function (data) {
         console.log(data)
-        var resultado = '<div class="Musica-resultado seleccionada u-cf" data-cancion="' + data.id + '"><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
+        var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + data.id + '" class="Musica-resultado-remove"></a><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
         $('.Musica-mis-resultados').append(resultado)
-        $('.Musica-resultado').on('click', MusicaBorrar)
+        $('.Musica-resultado-add').on('click', MusicaGuardar)
+        $('.Musica-resultado-remove').on('click', MusicaBorrar)
       })
     }
   }
@@ -207,23 +208,24 @@ function MusicaBuscar () {
       var item = data.tracks.items[i]
       console.log(item)
       var datos = JSON.parse(localStorage.datos)
-      var clase = ''
+      var clase = 'Musica-resultado-add'
       if (datos.canciones) {
         if (datos.canciones.indexOf(item.id) !== -1) {
-          clase = 'seleccionada'
+          clase = 'Musica-resultado-remove'
         }
       }
-      var resultado = '<div class="Musica-resultado ' + clase + ' u-cf" data-cancion="' + item.id + '"><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
+      var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + item.id + '" class="' + clase + '"></a><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
       $('.Musica-resultados').append(resultado)
     }
-    $('.Musica-resultado').on('click', MusicaGuardar)
+    $('.Musica-resultado-add').on('click', MusicaGuardar)
+    $('.Musica-resultado-remove').on('click', MusicaBorrar)
   })
 }
 function MusicaGuardar () {
   var datos = JSON.parse(localStorage.datos)
   var parametro = 'canciones'
   var valor = $(this).attr('data-cancion')
-  $(this).addClass('seleccionada')
+  $(this).addClass('Musica-resultado-remove').removeClass('Musica-resultado-add')
   if (datos[parametro]) {
     datos[parametro] += ', ' + valor
   } else {
@@ -234,29 +236,29 @@ function MusicaGuardar () {
   new Firebase('https://boda201610.firebaseio.com/')
     .child(datos.id)
     .set(datos)
+  $('.Musica-resultado-remove').on('click', MusicaBorrar)
 }
 function MusicaBorrar () {
   var datos = JSON.parse(localStorage.datos)
   var parametro = 'canciones'
   var valor = $(this).attr('data-cancion')
-  var confirmacion = window.confirm('¿quieres borrar ' + $(this).find('.Musica-resultado-nombre').text() + ' de tu lista?')
-  if (confirmacion) {
-    $(this).remove()
-    var canciones = datos.canciones.split(', ')
-    datos[parametro] = ''
-    for (var i = 0; i < canciones.length; i++) {
-      if (datos[parametro] && canciones[i] !== valor) {
-        datos[parametro] += ', ' + canciones[i]
-      } else if (canciones[i] !== valor) {
-        datos[parametro] = canciones[i]
-      }
+  // $(this).closest('.Musica-resultado').remove()
+  $(this).addClass('Musica-resultado-add').removeClass('Musica-resultado-remove')
+  var canciones = datos.canciones.split(', ')
+  datos[parametro] = ''
+  for (var i = 0; i < canciones.length; i++) {
+    if (datos[parametro] && canciones[i] !== valor) {
+      datos[parametro] += ', ' + canciones[i]
+    } else if (canciones[i] !== valor) {
+      datos[parametro] = canciones[i]
     }
-
-    localStorage.setItem('datos', JSON.stringify(datos))
-    new Firebase('https://boda201610.firebaseio.com/')
-      .child(datos.id)
-      .set(datos)
   }
+
+  localStorage.setItem('datos', JSON.stringify(datos))
+  new Firebase('https://boda201610.firebaseio.com/')
+    .child(datos.id)
+    .set(datos)
+  $('.Musica-resultado-add').on('click', MusicaGuardar)
 }
 
 /* Admin */
@@ -312,12 +314,15 @@ function PaginaLimpia () {
   $('.Page').hide()
   $('.Page-section').hide()
   $('.error').hide()
+  $('.Musica-resultados').empty()
+  $('.Musica-input').val('')
 
   $('.Menu a').show()
-  if (!localStorage.datos) $('.Menu .cervero').hide()
+  if (!localStorage.datos) $('.cervero').hide()
 
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()
+
 }
 function PaginaHome () {
   PaginaLimpia()
@@ -394,10 +399,9 @@ $(function () {
   page('/mapa', PaginaMapa)
   page('/invitado', Login)
   page('/invitado/:pass', Login)
-  page('/entrar', Login)
   page('/salir', Logout)
-  page('/buscarmusica', PaginaMusicaBuscar)
   page('/musica', PaginaMusica)
+  page('/buscarmusica', PaginaMusicaBuscar)
   page('/admin', PaginaAdmin)
   page('/admin/listar/:consulta', AdminListar)
   page('/admin/mostrar/:consulta', AdminMostrar)

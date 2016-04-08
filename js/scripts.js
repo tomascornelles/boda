@@ -288,6 +288,17 @@ function AdminMostrarInvitado (Invitado) {
   $('.Admin-listado').append('<li><strong>' + Invitado.nombre + ': </strong>' + cadena + '</li>')
 }
 
+/* Chara */
+function CharaMaker () {
+  var colores = ['#fec', '#fec', '#fec', '#fec', '#fec']
+  // var colores = ['#fec', '#321', '#333', '#c00', '#039']
+  $('.svg-body').css({'fill': colores[0]})
+  $('.svg-hair').css({'fill': colores[1]})
+  $('.svg-eyes').css({'fill': colores[2]})
+  $('.svg-shirt').css({'fill': colores[3]})
+  $('.svg-pants').css({'fill': colores[4]})
+}
+
 /* Utilidades */
 function toggleDestino () {
   $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
@@ -321,6 +332,11 @@ function PaginaLimpia () {
 function PaginaHome () {
   PaginaLimpia()
   $('.Home').fadeIn(1000)
+}
+function PaginaChara () {
+  PaginaLimpia()
+  CharaMaker()
+  $('.Chara').fadeIn(1000)
 }
 function PaginaMapa () {
   LoginCervero()
@@ -390,6 +406,7 @@ $(function () {
   page.base('/boda')
   page('/', PaginaHome)
   page('/home', PaginaHome)
+  page('/dibuja', PaginaChara)
   page('/mapa', PaginaMapa)
   page('/invitado', Login)
   page('/invitado/:pass', Login)

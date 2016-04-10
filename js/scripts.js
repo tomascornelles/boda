@@ -290,13 +290,62 @@ function AdminMostrarInvitado (Invitado) {
 
 /* Chara */
 function CharaMaker () {
-  var colores = ['#fec', '#fec', '#fec', '#fec', '#fec']
-  // var colores = ['#fec', '#321', '#333', '#c00', '#039']
+  // var colores = ['#fec', '#fec', '#fec', '#fec', '#fec']
+  var colores = ['#efbe92', '#402420', '#000000', '#c22b2a', '#004584', '#402420']
   $('.svg-body').css({'fill': colores[0]})
   $('.svg-hair').css({'fill': colores[1]})
+  $('.svg-beard').css({'fill': 'transparent'})
+  $('.svg-mustache').css({'fill': 'transparent'})
   $('.svg-eyes').css({'fill': colores[2]})
-  $('.svg-shirt').css({'fill': colores[3]})
-  $('.svg-pants').css({'fill': colores[4]})
+  $('.svg-shirt').css({'fill': 'transparent'})
+  $('.svg-shirt-corto').css({'fill': colores[3]})
+  $('.svg-shirt-fcb').css({'fill': 'transparent'})
+  $('.svg-shirt-flash').css({'fill': 'transparent'})
+  $('.svg-pants').css({'fill': 'transparent'})
+  $('.svg-pants-largo').css({'fill': colores[4]})
+  $('.svg-shoes').css({'fill': colores[5]})
+
+  $('.elije-color').on('click', function () {
+    var parte = $(this).attr('data-parte')
+    CharaColores(parte)
+
+    $('.Chara-opciones .opciones').empty()
+    if ($(this).attr('data-tipos')) {
+      var tipos = $(this).attr('data-tipos')
+      var tipo = tipos.split(' ')
+      for (var i = 0; i < tipo.length; i++) {
+        $('.Chara .opciones').append('<a data-tipo="' + tipo[i] + '" class="button opcion">' + tipo[i] + '</a> ')
+      }
+
+      $('.opcion').on('click', function () {
+        $('.' + $(this).attr('data-tipo')).css({'fill': 'black'})
+        $('.Chara-opciones').hide()
+        $('.Chara .partes').fadeIn()
+      })
+    }
+
+    $('.Chara .partes').hide()
+    $('.Chara-opciones').slideDown()
+  })
+}
+function CharaColores (parte) {
+  var colores = ['transparent', '#efbe92', '#edb69f', '#c0642e', '#8b391e', '#402420', '#000000', '#ffffff', '#ffefbd', '#ffc500', '#e45214', '#c22b2a', '#ff8ea4', '#693d9f', '#004584', '#007ebe', '#0f8a49', '#5ccf97', '#182c1d', '#ca1146', '#5a0b15', '#67a9bf', '#8e9397']
+
+  $('.Chara-opciones .colores').empty()
+  for (var i = 0; i < colores.length; i++) {
+    if (colores[i] === 'transparent') {
+      $('.Chara .colores').append('<a data-color="' + colores[i] + '" style="background-color:' + colores[i] + '" class="button color">Borrar</a> <br>')
+    } else {
+      $('.Chara .colores').append('<a data-color="' + colores[i] + '" style="background-color:' + colores[i] + '" class="button color"></a> ')
+    }
+    if (i % 6 === 0) $('.Chara .colores').append('<br>')
+  }
+
+  $('.color').on('click', function () {
+    $(parte).css({'fill': $(this).attr('data-color')})
+    $('.Chara-opciones').hide()
+    $('.Chara .partes').fadeIn()
+  })
 }
 
 /* Utilidades */

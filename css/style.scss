@@ -321,13 +321,20 @@ select:focus {
   display: none;
 }
 .Chara .svg-base {
-  stroke: #000;
+  fill: transparent;
+  stroke: transparent;
   stroke-width: 0.25;
-  fill: #000;
 }
 .Chara .svg-sombra {
-  fill: rgba(0,0,0,.5);
+  fill: transparent;
   transform: translate(.03em, .03em);
+}
+.Chara .svg-base.svg-base-hombre {
+  stroke: #000;
+  fill: #000;
+}
+.Chara .svg-sombra.svg-base-hombre {
+  fill: rgba(0,0,0,.5);
 }
 
 /* More utilities */

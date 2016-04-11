@@ -349,8 +349,7 @@ function CharaMaker () {
   $('.elije-color').on('click', function () {
     var parte = $(this).attr('data-parte')
     CharaColores(parte, chara)
-
-    $('.Chara_opciones .opciones').empty()
+    $('.Chara-opciones .opciones').empty()
     if ($(this).attr('data-tipos')) {
       var tipos = $(this).attr('data-tipos')
       var tipo = tipos.split(' ')
@@ -359,28 +358,29 @@ function CharaMaker () {
       }
 
       $('.opcion').on('click', function () {
-        et[parte] = $(this).attr('data-tipo')
+        if (parte === 'svg_hair') chara['hairType'] = $(this).attr('data-tipo')
+        else chara['pantType'] = $(this).attr('data-tipo')
         $('.' + parte).hide()
         var parteTipo = '.' + parte + '_' + $(this).attr('data-tipo')
 
         $(parteTipo).show()
 
-        if ((et['svg_pants'] === 'falda') && (et['svg_hair'] === 'largo')) {
+        if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
           $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
           $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})
           $('.Chara .svg_sombra.svg_base_pelo_falda').css({'fill': 'rgba(0,0,0,.5)'})
-        } else if ((et['svg_pants'] === 'falda') && (et['svg_hair'] !== 'largo')) {
+        } else if ((chara.pantType === 'falda') && (chara.hairType !== 'largo')) {
           $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
           $('.Chara .svg_base.svg_base_falda').css({'fill': '#000', 'stroke': '#000'})
           $('.Chara .svg_sombra.svg_base_falda').css({'fill': 'rgba(0,0,0,.5)'})
-        } else if ((et['svg_pants'] !== 'falda') && (et['svg_hair'] === 'largo')) {
+        } else if ((chara.pantType !== 'falda') && (chara.hairType === 'largo')) {
           $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
           $('.Chara .svg_base.svg_base_pelo').css({'fill': '#000', 'stroke': '#000'})
           $('.Chara .svg_sombra.svg_base_pelo').css({'fill': 'rgba(0,0,0,.5)'})
         } else {
           $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
           $('.Chara .svg_base.svg_base_hombre').css({'fill': '#000', 'stroke': '#000'})
-          $('.Chara .svg_sombra.svg-base-hombre').css({'fill': 'rgba(0,0,0,.5)'})
+          $('.Chara .svg_sombra.svg_base_hombre').css({'fill': 'rgba(0,0,0,.5)'})
         }
       })
     }
@@ -391,7 +391,6 @@ function CharaMaker () {
 }
 function CharaColores (parte, chara) {
   var colores = ['transparent', '#efbe92', '#edb69f', '#c0642e', '#8b391e', '#402420', '#000000', '#ffffff', '#ffefbd', '#ffc500', '#e45214', '#c22b2a', '#ff8ea4', '#693d9f', '#004584', '#007ebe', '#0f8a49', '#5ccf97', '#182c1d', '#ca1146', '#5a0b15', '#67a9bf', '#8e9397']
-
   $('.Chara-opciones .colores').empty()
   for (var i = 0; i < colores.length; i++) {
     if (colores[i] === 'transparent') {
@@ -411,7 +410,9 @@ function CharaColores (parte, chara) {
 
     if (localStorage.datos) {
       var datos = JSON.parse(localStorage.datos)
-      if (datos['chara']) datos.chara = chara
+      datos['chara'] = chara
+console.log(datos)
+      localStorage.setItem('datos', JSON.stringify(datos))
     }
   })
 }

@@ -44,7 +44,7 @@ function initMap () {
   var can = {
     title: 'Hotel Avenida Palace',
     coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p>',
+    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p><p><a href="https://www.google.es/maps/dir//Hotel+Avenida+Palace,+Gran+Via+de+Les+Corts+Catalanes,+605,+08007+Barcelona/@41.3890643,2.1651743,17z/data=!4m13!1m4!3m3!1s0x12a4a2f257ed123f:0xd0526acc9f673041!2sHotel+Avenida+Palace!3b1!4m7!1m0!1m5!1m1!1s0x12a4a2f257ed123f:0xd0526acc9f673041!2m2!1d2.167363!2d41.3890643" target="_blank" class="button u-full-width">¿Como llegar?</a></p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -81,7 +81,8 @@ function InvitadoCargar (Invitado, id) {
       'comida': Invitado.comida,
       'mensaje': Invitado.mensaje,
       'confirmar': Invitado.confirmar,
-      'canciones': Invitado.canciones
+      'canciones': Invitado.canciones,
+      'chara': Invitado.chara
     }
     localStorage.setItem('datos', JSON.stringify(datos))
     page('/invitado')
@@ -89,10 +90,19 @@ function InvitadoCargar (Invitado, id) {
 }
 function InvitadoMostrar () {
   var datos = JSON.parse(localStorage.datos)
-
+  $('.Invitado-nombre').text(datos['nombre'])
   if (datos['confirmar'] !== undefined) { // Ha confirmado
-    if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
-    MusicaPlaylist()
+    $('.Invitado-noConfirma').hide()
+    $('.Invitado-confirmado').show()
+    console.log(datos['confirmar'])
+    if (datos['mensaje'] !== undefined) {
+      $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
+    } else {
+      $('.button[data-destino=".Invitado-contenido-mensaje"]').closest('.six').removeClass('six').addClass('twelve')
+    }
+    $('.Invitado--cargando').hide()
+    $('.Invitado-contenido').fadeIn()
+    $('.Invitado').fadeIn(1000)
   } else {
     $('.Invitado--cargando').hide()
     $('.Invitado-contenido').fadeIn()
@@ -288,6 +298,137 @@ function AdminMostrarInvitado (Invitado) {
   $('.Admin-listado').append('<li><strong>' + Invitado.nombre + ': </strong>' + cadena + '</li>')
 }
 
+/* Chara */
+function CharaMaker () {
+  var colores = ['#efbe92', '#402420', '#000000', '#c22b2a', '#004584', '#402420']
+  var chara = {
+    'svg_body': colores[0],
+    'svg_hair': colores[1],
+    'svg_beard': 'transparent',
+    'svg_mustache': 'transparent',
+    'svg_eyes': colores[2],
+    'svg_shirt': colores[3],
+    'svg_pants': colores[4],
+    'svg_shoes': colores[5],
+    'svg_shirt_chaleco': 'transparent',
+    'svg_shirt_tirantes': 'transparent',
+    'svg_shirt_rayas': 'transparent',
+    'svg_shirt_flash': 'transparent',
+    'hairType': 'corto',
+    'pantType': 'largo'
+  }
+  if (localStorage.datos) {
+    var datos = JSON.parse(localStorage.datos)
+    if (datos['chara']) {
+      chara = datos.chara
+    } else {
+      datos['chara'] = chara
+    }
+  }
+
+  $('.svg_body').css({'fill': chara.svg_body})
+  $('.svg_hair').css({'fill': chara.svg_hair}).hide()
+  if (chara.hairType === 'corto') {
+    $('.svg_hair_corto').show()
+  } else {
+    $('.svg_hair_largo').show()
+  }
+  $('.svg_beard').css({'fill': chara.svg_beard})
+  $('.svg_mustache').css({'fill': chara.svg_mustache})
+  $('.svg_eyes').css({'fill': chara.svg_eyes})
+  $('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
+  $('.svg_shirt_corto').show()
+  $('.svg_shirt_chaleco').css({'fill': chara.svg_shirt_chaleco})
+  $('.svg_shirt_tirantes').css({'fill': chara.svg_shirt_tirantes})
+  $('.svg_shirt_rayas').css({'fill': chara.svg_shirt_rayas})
+  $('.svg_shirt_flash').css({'fill': chara.svg_shirt_flash})
+  $('.svg_pants').css({'fill': chara.svg_pants}).hide()
+  if (chara.pantType === 'falda') {
+    $('.svg_pants_falda').show()
+  } else if (chara.pantType === 'corto') {
+    $('.svg_pants_corto').show()
+  } else {
+    $('.svg_pants_largo').show()
+  }
+  $('.svg_shoes').css({'fill': chara.svg_shoes})
+
+  var et = []
+  et['.svg_hair'] = 'corto'
+  et['.svg_pants'] = 'largo'
+
+  $('.elije-color').on('click', function () {
+    var parte = $(this).attr('data-parte')
+    CharaColores(parte, chara)
+    $('.Chara-opciones .opciones').empty()
+    if ($(this).attr('data-tipos')) {
+      var tipos = $(this).attr('data-tipos')
+      var tipo = tipos.split(' ')
+      for (var i = 0; i < tipo.length; i++) {
+        $('.Chara .opciones').append('<a data-tipo="' + tipo[i] + '" class="button opcion">' + tipo[i] + '</a> ')
+      }
+
+      $('.opcion').on('click', function () {
+        if (parte === 'svg_hair') chara['hairType'] = $(this).attr('data-tipo')
+        else chara['pantType'] = $(this).attr('data-tipo')
+        $('.' + parte).hide()
+        var parteTipo = '.' + parte + '_' + $(this).attr('data-tipo')
+
+        $(parteTipo).show()
+
+        if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
+          $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+          $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})
+          $('.Chara .svg_sombra.svg_base_pelo_falda').css({'fill': 'rgba(0,0,0,.5)'})
+        } else if ((chara.pantType === 'falda') && (chara.hairType !== 'largo')) {
+          $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+          $('.Chara .svg_base.svg_base_falda').css({'fill': '#000', 'stroke': '#000'})
+          $('.Chara .svg_sombra.svg_base_falda').css({'fill': 'rgba(0,0,0,.5)'})
+        } else if ((chara.pantType !== 'falda') && (chara.hairType === 'largo')) {
+          $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+          $('.Chara .svg_base.svg_base_pelo').css({'fill': '#000', 'stroke': '#000'})
+          $('.Chara .svg_sombra.svg_base_pelo').css({'fill': 'rgba(0,0,0,.5)'})
+        } else {
+          $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+          $('.Chara .svg_base.svg_base_hombre').css({'fill': '#000', 'stroke': '#000'})
+          $('.Chara .svg_sombra.svg_base_hombre').css({'fill': 'rgba(0,0,0,.5)'})
+        }
+      })
+    }
+
+    $('.Chara .partes').hide()
+    $('.Chara-opciones').slideDown()
+  })
+}
+function CharaColores (parte, chara) {
+  var colores = ['transparent', '#efbe92', '#edb69f', '#c0642e', '#8b391e', '#402420', '#000000', '#ffffff', '#ffefbd', '#ffc500', '#e45214', '#c22b2a', '#ff8ea4', '#693d9f', '#004584', '#007ebe', '#0f8a49', '#5ccf97', '#182c1d', '#ca1146', '#5a0b15', '#67a9bf', '#8e9397']
+  $('.Chara-opciones .colores').empty()
+  for (var i = 0; i < colores.length; i++) {
+    if (colores[i] === 'transparent') {
+      $('.Chara .colores').append('<a data-color="' + colores[i] + '" style="background-color:' + colores[i] + '" class="button color">Borrar</a> <br>')
+    } else {
+      $('.Chara .colores').append('<a data-color="' + colores[i] + '" style="background-color:' + colores[i] + '" class="button color"></a> ')
+    }
+    if (i % 6 === 0) $('.Chara .colores').append('<br>')
+  }
+  $('.Chara .colores').append('<br><a class="button color">Cerrar</a> <br>')
+
+  $('.color').on('click', function () {
+    if ($(this).attr('data-color')) $('.' + parte).css({'fill': $(this).attr('data-color')})
+    $('.Chara-opciones').hide()
+    $('.Chara .partes').fadeIn()
+    chara[parte] = $(this).attr('data-color')
+
+    if (localStorage.datos) {
+      var datos = JSON.parse(localStorage.datos)
+      datos['chara'] = chara
+      localStorage.setItem('datos', JSON.stringify(datos))
+      new Firebase('https://boda201610.firebaseio.com/')
+        .child(datos.id)
+        .set(datos)
+    }
+  })
+}
+
 /* Utilidades */
 function toggleDestino () {
   $($(this).attr('data-destino')).siblings('.Page-section').slideUp(400)
@@ -321,6 +462,11 @@ function PaginaLimpia () {
 function PaginaHome () {
   PaginaLimpia()
   $('.Home').fadeIn(1000)
+}
+function PaginaChara () {
+  PaginaLimpia()
+  CharaMaker()
+  $('.Chara').fadeIn(1000)
 }
 function PaginaMapa () {
   LoginCervero()
@@ -390,6 +536,7 @@ $(function () {
   page.base('/boda')
   page('/', PaginaHome)
   page('/home', PaginaHome)
+  page('/dibuja', PaginaChara)
   page('/mapa', PaginaMapa)
   page('/invitado', Login)
   page('/invitado/:pass', Login)

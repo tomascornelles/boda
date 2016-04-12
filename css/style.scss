@@ -72,6 +72,9 @@ a {
   font-weight: bold;
   cursor: pointer;
 }
+.Menu .button {
+  display: block;
+}
 
 .flex-row {
   min-height: 100vh;
@@ -216,6 +219,7 @@ select:focus {
 
 .Mapa-info-interior {
   padding: 3rem;
+  margin: 5rem 0 10rem;
 }
 
 .Mapa-overlay {
@@ -239,9 +243,15 @@ select:focus {
 .Invitado-datos {
   display: none;
 }
+.Invitado-contenido {
+  margin-bottom: 100px;
+}
 .Invitado-mensaje-texto {
   height: 200px;
   height: 40vh;
+}
+.Invitado-confirmado {
+  display: none;
 }
 
 /* Login */
@@ -271,14 +281,18 @@ select:focus {
   width: 96px;
   height: 96px;
   margin-right: 16px;
+  display: none;
 }
 .Musica-resultado-imagen img {
   max-width: 100%;
 }
 .Musica-resultado-nombre {
-  margin: 5px 0;
+  margin: 5px 0 0 15px;
   font-size: 2rem;
   font-weight: 700;
+}
+.Musica-resultado-artista, .Musica-resultado-album {
+  margin: 5px 0 0 15px;
 }
 .Musica-resultado-remove, .Musica-resultado-add {
   float: right;
@@ -373,6 +387,9 @@ select:focus {
 
 /* Larger than phablet */
 @media (min-width:36em) {
+  .Musica-resultado-imagen {
+    display: block;
+  }
 }
 
 /* Larger than tablet */
@@ -411,6 +428,9 @@ select:focus {
 
   .Mapa-overlay {
     display: none;
+  }
+  .Menu .button {
+    display: inline-block;
   }
 
 }

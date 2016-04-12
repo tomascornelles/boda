@@ -125,10 +125,10 @@ catch(e){window.attachEvent("onload", $buo_f)}
               <div class="row">
                 <div class="twelve columns">
                   <h2>¡Hola <span class="Invitado-nombre"></span>!</h2>
-                  <h4>¿Confirmas asistencia?</h4>
+                  <h4 class="Invitado-noConfirma">¿Confirmas asistencia?</h4>
                   <div class="row">
                     <div class="six columns">
-                      <a class="button button-submit u-full-width" data-destino=".Invitado-contenido-confirmar">¡Contad conmigo!</a>
+                      <a class="button button-submit u-full-width Invitado-noConfirma" data-destino=".Invitado-contenido-confirmar">¡Contad conmigo!</a>
                     </div>
                     <div class="six columns">
                       <a class="button button-submit u-full-width" data-destino=".Invitado-contenido-mensaje">Os mando mi felicitación</a>
@@ -136,9 +136,17 @@ catch(e){window.attachEvent("onload", $buo_f)}
                   </div>
                 </div>
               </div>
-              <p>
-                <a href="./salir">Salir</a>
-              </p>
+              <div class="Invitado-confirmado">
+                <div class="row">
+                  <div class="twelve columns">
+                    <h4><br>Más cosas divertidas</h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="six columns"><h5>Ayúdanos a escoger música para bailar</h5><a href="./buscarmusica" class="button link u-full-width">Música</a></div>
+                  <div class="six columns"><h5>Crea una versión de ti mismo con píxeles</h5><a href="./dibuja" class="button link u-full-width">Pixélate</a></div>
+                </div>
+              </div>
             </div>
 
             <div class="Invitado-contenido-mensaje Page-section">
@@ -413,8 +421,10 @@ catch(e){window.attachEvent("onload", $buo_f)}
             <a href="./" class="button link cervero">Inicio</a>
             <a href="./mapa" class="button link cervero">Información</a>
             <a href="./invitado" class="button link">Área de Invitado</a>
+            <a href="./buscarmusica" class="button link cervero">Música</a>
+            <a href="./dibuja" class="button link">Pixélate</a>
+            <a href="./salir" class="button button-primary cervero">Salir</a>
           </p>
-          <p><a href="./salir" class="cervero">Salir</a></p>
         </div>
       </div>
     </div>

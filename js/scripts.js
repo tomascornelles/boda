@@ -44,7 +44,7 @@ function initMap () {
   var can = {
     title: 'Hotel Avenida Palace',
     coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p>',
+    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p><p><a href="https://www.google.es/maps/dir//Hotel+Avenida+Palace,+Gran+Via+de+Les+Corts+Catalanes,+605,+08007+Barcelona/@41.3890643,2.1651743,17z/data=!4m13!1m4!3m3!1s0x12a4a2f257ed123f:0xd0526acc9f673041!2sHotel+Avenida+Palace!3b1!4m7!1m0!1m5!1m1!1s0x12a4a2f257ed123f:0xd0526acc9f673041!2m2!1d2.167363!2d41.3890643" target="_blank" class="button u-full-width">¿Como llegar?</a></p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -81,7 +81,8 @@ function InvitadoCargar (Invitado, id) {
       'comida': Invitado.comida,
       'mensaje': Invitado.mensaje,
       'confirmar': Invitado.confirmar,
-      'canciones': Invitado.canciones
+      'canciones': Invitado.canciones,
+      'chara': Invitado.chara
     }
     localStorage.setItem('datos', JSON.stringify(datos))
     page('/invitado')
@@ -89,10 +90,19 @@ function InvitadoCargar (Invitado, id) {
 }
 function InvitadoMostrar () {
   var datos = JSON.parse(localStorage.datos)
-
+  $('.Invitado-nombre').text(datos['nombre'])
   if (datos['confirmar'] !== undefined) { // Ha confirmado
-    if (datos['mensaje'] !== undefined) $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
-    MusicaPlaylist()
+    $('.Invitado-noConfirma').hide()
+    $('.Invitado-confirmado').show()
+    console.log(datos['confirmar'])
+    if (datos['mensaje'] !== undefined) {
+      $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
+    } else {
+      $('.button[data-destino=".Invitado-contenido-mensaje"]').closest('.six').removeClass('six').addClass('twelve')
+    }
+    $('.Invitado--cargando').hide()
+    $('.Invitado-contenido').fadeIn()
+    $('.Invitado').fadeIn(1000)
   } else {
     $('.Invitado--cargando').hide()
     $('.Invitado-contenido').fadeIn()
@@ -411,8 +421,10 @@ function CharaColores (parte, chara) {
     if (localStorage.datos) {
       var datos = JSON.parse(localStorage.datos)
       datos['chara'] = chara
-console.log(datos)
       localStorage.setItem('datos', JSON.stringify(datos))
+      new Firebase('https://boda201610.firebaseio.com/')
+        .child(datos.id)
+        .set(datos)
     }
   })
 }

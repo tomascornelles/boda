@@ -87,123 +87,12 @@ a {
   align-self: center;
 }
 
-.button,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-  display: inline-block;
-  height: 38px;
-  padding: 0 20px;
-  color: $c-negro;
-  text-align: center;
-  font-size: 1.5rem;
-  font-weight: 600;
-  border-radius: .4rem;
-  line-height: 38px;
-  letter-spacing: .1rem;
-  text-transform: none;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: $c-blanco;
-  border: 1px solid $c-oscuro;
-  box-shadow: .25rem .25rem 0 0 $c-oscuro;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-.button:hover,
-button:hover,
-input[type="submit"]:hover,
-input[type="reset"]:hover,
-input[type="button"]:hover,
-.button:focus,
-button:focus,
-input[type="submit"]:focus,
-input[type="reset"]:focus,
-input[type="button"]:focus {
-  color: $c-negro;
-  border-color: $c-oscuro;
-  outline: 0;
-}
-
-.button.button-primary,
-button.button-primary,
-input[type="submit"].button-primary,
-input[type="reset"].button-primary,
-input[type="button"].button-primary {
-  color: $c-blanco;
-  background-color: $c-acento;
-  border-color: $c-acento;
-}
-
-.button.button-primary:hover,
-button.button-primary:hover,
-input[type="submit"].button-primary:hover,
-input[type="reset"].button-primary:hover,
-input[type="button"].button-primary:hover,
-.button.button-primary:focus,
-button.button-primary:focus,
-input[type="submit"].button-primary:focus,
-input[type="reset"].button-primary:focus,
-input[type="button"].button-primary:focus {
-  color: $c-blanco;
-  background-color: $c-acento;
-  border-color: $c-acento;
-}
-
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="text"],
-input[type="tel"],
-input[type="url"],
-input[type="password"],
-textarea,
-select {
-  height: 38px;
-  padding: 6px 10px;
-  background-color: $c-blanco;
-  border-radius: 0;
-  border: 0;
-  border-bottom: 1px solid $c-oscuro;
-  box-sizing: border-box;
-  color: $c-negro;
-}
-
-input[type="email"],
-input[type="number"],
-input[type="search"],
-input[type="text"],
-input[type="tel"],
-input[type="url"],
-input[type="password"],
-textarea {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-
-textarea {
-  min-height: 65px;
-  padding-top: 6px;
-  padding-bottom: 6px;
-}
-
-input[type="email"]:focus,
-input[type="number"]:focus,
-input[type="search"]:focus,
-input[type="text"]:focus,
-input[type="tel"]:focus,
-input[type="url"]:focus,
-input[type="password"]:focus,
-textarea:focus,
-select:focus {
-  border-color: $c-oscuro;
-  outline: 0;
-}
 
 /* Home */
+.Home {
+  background: url(../img/Minimal_beach.png) no-repeat center center;
+  background-size: cover;
+}
 
 /* Mapa */
 .Mapa .Mapa-mapa {
@@ -365,6 +254,121 @@ select:focus {
   display:none;
 }
 
+.button,
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"] {
+  display: inline-block;
+  height: 38px;
+  padding: 0 20px;
+  color: $c-negro;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border-radius: .4rem;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: $c-blanco;
+  border: 1px solid $c-oscuro;
+  box-shadow: .25rem .25rem 0 0 $c-oscuro;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.button:hover,
+button:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="button"]:hover,
+.button:focus,
+button:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="button"]:focus {
+  color: $c-negro;
+  border-color: $c-oscuro;
+  outline: 0;
+}
+
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  color: $c-blanco;
+  background-color: $c-acento;
+  border-color: $c-acento;
+}
+
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  color: $c-blanco;
+  background-color: $c-acento;
+  border-color: $c-acento;
+}
+
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea,
+select {
+  height: 38px;
+  padding: 6px 10px;
+  background-color: $c-blanco;
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid $c-oscuro;
+  box-sizing: border-box;
+  color: $c-negro;
+}
+
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="text"],
+input[type="tel"],
+input[type="url"],
+input[type="password"],
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+textarea {
+  min-height: 65px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border-color: $c-oscuro;
+  outline: 0;
+}
 .button-radio,
 .button-check {
   padding: 0 1rem;

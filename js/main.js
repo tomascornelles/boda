@@ -94,7 +94,6 @@ function InvitadoMostrar () {
   if (datos['confirmar'] !== undefined) { // Ha confirmado
     $('.Invitado-noConfirma').hide()
     $('.Invitado-confirmado').show()
-    console.log(datos['confirmar'])
     if (datos['mensaje'] !== undefined) {
       $('.button[data-destino=".Invitado-contenido-mensaje"]').hide()
     } else {
@@ -288,7 +287,6 @@ function AdminListar (ctx) {
   $('.Admin').fadeIn(1000)
 }
 function AdminMostrar (ctx) {
-  console.log(ctx.params.consulta)
 }
 function AdminMostrarInvitado (Invitado) {
   var cadena = ''

@@ -1,17 +1,17 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 // var webserver = require('gulp-webserver');
-// var concat = require('gulp-concat');
+var concat = require('gulp-concat');
 // var uglify = require('gulp-uglify');
-// var minify = require('gulp-minify');
+var minify = require('gulp-minify');
 // var minifyCss = require('gulp-minify-css');
-// var sourcemaps = require('gulp-sourcemaps');
+var sourcemaps = require('gulp-sourcemaps');
 
 // Rutas archivos
 var sass_src = 'css/';
 var css_src = 'css/';
 // var css_min_src = 'WebContent_vo15/css/';
-// var js_src = 'WebSrc/js/';
+var js_src = 'js/';
 // var js_jquery_src = 'WebSrc/js/jquery/';
 // var js_vendor_src = 'WebSrc/js/vendor/';
 // var js_min_src = 'WebContent_vo15/js/';
@@ -45,18 +45,14 @@ gulp.task('styles', function() {
 //         .pipe(gulp.dest(css_min_src));
 // });
 
-// gulp.task('jsmin', function () {
-//     gulp.src(js_src + '*.js')
-//         .pipe(minify({
-//             exclude: ['vendor'],
-//             mangle: false
-//         }))
-//         .pipe(gulp.dest(js_src+'/min'));
-//         // .pipe(sourcemaps.init())
-//         // .pipe(concat('scripts.min.js')) 
-//         // .pipe(sourcemaps.write('.'))
-//         // .pipe(gulp.dest(js_min_src));
-// });
+gulp.task('jsmin', function () {
+    gulp.src(js_src + '*.js')
+        .pipe(sourcemaps.init())
+        .pipe(concat('scripts.js')) 
+        .pipe(minify())
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest(js_src));
+});
 
 // gulp.task('jsconcat', function(){
 //     gulp.src(js_src + '/min/*-min.js')
@@ -89,4 +85,4 @@ gulp.task('watch',function() {
     // gulp.watch(js_vendor_src + '*.js',['jsvendormin']);
 });
 
-gulp.task('default', ['watch', 'styles']);
+gulp.task('default', ['watch', 'styles', 'jsmin']);

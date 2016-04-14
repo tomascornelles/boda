@@ -370,6 +370,9 @@ function CharaMaker () {
       $('.opcion').on('click', function () {
         if (parte === 'svg_hair') chara['hairType'] = $(this).attr('data-tipo')
         else chara['pantType'] = $(this).attr('data-tipo')
+
+        if ($(this).attr('data-tipo') === 'falda') $('.elije-color[data-parte="svg_pants"]').text('Falda')
+        if ($(this).attr('data-tipo') === 'corto' || $(this).attr('data-tipo') === 'largo' ) $('.elije-color[data-parte="svg_pants"]').text('Pantalón')
         $('.' + parte).hide()
         var parteTipo = '.' + parte + '_' + $(this).attr('data-tipo')
 

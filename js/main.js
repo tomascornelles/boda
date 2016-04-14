@@ -538,7 +538,7 @@ $(function () {
   page('/', PaginaHome)
   page('/home', PaginaHome)
   page('/dibuja', PaginaChara)
-  page('/mapa', PaginaMapa)
+  page('/informacion', PaginaMapa)
   page('/invitado', Login)
   page('/invitado/:pass', Login)
   page('/salir', Logout)

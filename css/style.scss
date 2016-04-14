@@ -86,7 +86,11 @@ a {
 }
 
 /* Home */
-
+.Home h4 a, .Home h4 a:hover {
+  color: $c-negro;
+  text-decoration: none;
+}
+ 
 /* Mapa */
 .Mapa .Mapa-mapa {
   height: 100vh;

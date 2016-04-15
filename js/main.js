@@ -5,7 +5,7 @@ function initMap () {
   var styles = [
     {
       stylers: [
-        { hue: '#F39C12' },
+        { hue: '#F39C12' }
         { saturation: 20 }
       ]
     }, {

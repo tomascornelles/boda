@@ -265,37 +265,6 @@ function MusicaBorrar () {
   $('.Musica-resultado-add').on('click', MusicaGuardar)
 }
 
-/* Admin */
-function AdminListar (ctx) {
-  var consulta = ctx.params.consulta
-
-  if (consulta === 'confirmados') {}
-  new Firebase('https://boda201610.firebaseio.com/')
-    .orderByChild('confirmar')
-    .equalTo('Confirmado')
-    .once('value', function (snap) {
-      if (snap.val()) {
-        var res = snap.val()
-        for (var i in res) {
-          var Invitado = res[i]
-          AdminMostrarInvitado(Invitado)
-        }
-      } else {
-        $('.Admin .mensajes').append('No hay resultados')
-      }
-    })
-  $('.Admin').fadeIn(1000)
-}
-function AdminMostrar (ctx) {
-}
-function AdminMostrarInvitado (Invitado) {
-  var cadena = ''
-  if (Invitado.adultos) cadena += Invitado.adultos + ' Adultos'
-  if (Invitado.adultos && Invitado.ninos) cadena += ' y '
-  if (Invitado.ninos) cadena += Invitado.ninos + ' Niños'
-  $('.Admin-listado').append('<li><strong>' + Invitado.nombre + ': </strong>' + cadena + '</li>')
-}
-
 /* Chara */
 function CharaMaker () {
   var colores = ['#efbe92', '#402420', '#000000', '#c22b2a', '#004584', '#402420']
@@ -494,23 +463,6 @@ function PaginaMusicaBuscar () {
   PaginaLimpia()
   $('.Musica-Buscar').fadeIn(1000)
 }
-function PaginaAdmin () {
-  LoginCervero('admin')
-  PaginaLimpia()
-  $('.Admin').fadeIn(1000)
-}
-function PaginaAdminListar () {
-  LoginCervero('admin')
-  PaginaLimpia()
-  AdminListar()
-  $('.Admin').fadeIn(1000)
-}
-function PaginaAdminMostrar () {
-  LoginCervero('admin')
-  PaginaLimpia()
-  AdminMostrar()
-  $('.Admin').fadeIn(1000)
-}
 function Pagina404 () {
   PaginaLimpia()
   $('.Error404').fadeIn(1000)
@@ -544,9 +496,6 @@ $(function () {
   page('/salir', Logout)
   page('/musica', PaginaMusica)
   page('/buscarmusica', PaginaMusicaBuscar)
-  page('/admin', PaginaAdmin)
-  page('/admin/listar/:consulta', AdminListar)
-  page('/admin/mostrar/:consulta', AdminMostrar)
   page('/*', Pagina404)
   page({
     hashbang: true

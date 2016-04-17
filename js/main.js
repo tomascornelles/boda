@@ -1,4 +1,4 @@
-/* global $ google page Firebase localStorage */
+/* global $ google page Firebase localStorage location */
 
 function initMap () {
   // Create an array of styles.
@@ -495,7 +495,11 @@ $(function () {
   $('.Invitado-confirmar-enviar').on('click', InvitadoConfirmar)
   $('.Musica-input').on('keyup', MusicaBuscar)
 
-  page.base('/boda')
+  if ($(location).attr('hostname') === 'localhost') {
+    page.base('/boda')
+  } else {
+    page.base('')
+  }
   page('/', PaginaHome)
   page('/home', PaginaHome)
   page('/dibuja', PaginaChara)

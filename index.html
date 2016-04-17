@@ -61,7 +61,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 	<div class="Page Mapa">
 		<div class="row">
-			<div class="six columns u-text-center Mapa-info">
+			<div class="u-text-center Mapa-info">
 				<div class="Mapa-info-interior">
 					<p>Os esperamos el</p>
 					<h3>13 de Agosto de 2016</h3>
@@ -74,7 +74,7 @@
 					</p>
 				</div>
 			</div>
-			<div class="six columns Mapa-mapa">
+			<div class="Mapa-mapa">
 				<div id="map"></div>
 				<div class="Mapa-overlay"></div>
 			</div>
@@ -127,7 +127,7 @@
 											<a class="button button-submit u-full-width Invitado-noConfirma" data-destino=".Invitado-contenido-confirmar">¡Contad conmigo!</a>
 										</div>
 										<div class="six columns">
-											<a class="button button-submit " data-destino=".Invitado-contenido-mensaje">Os mando mi felicitación</a>
+											<a class="button button-submit u-full-width" data-destino=".Invitado-contenido-mensaje">Os mando mi felicitación</a>
 										</div>
 									</div>
 								</div>
@@ -373,10 +373,32 @@
 
 	<!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-50616648-4', 'auto');
+    ga('send', 'pageview');
+
+  </script>
+
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-KLWNJJ"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KLWNJJ');</script>
+  <!-- End Google Tag Manager -->
+
 	<script src="js/jquery-1.10.1.min.js"></script>
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwQv-uMeuuHGbDmVVAOPcxLZk6QW-h05M&callback=initMap" async defer></script>
-	<script src="js/main.min.js"></script>
+	<script src="js/main.js"></script>
 
 
   <!--[if lte IE 9]>

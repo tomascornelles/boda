@@ -5,7 +5,7 @@ function initMap () {
   var styles = [
     {
       stylers: [
-        { hue: '#F39C12' }
+        { hue: '#F39C12' },
         { saturation: 20 }
       ]
     }, {
@@ -282,6 +282,7 @@ function CharaMaker () {
     'svg_shirt_rayas': 'transparent',
     'svg_shirt_flash': 'transparent',
     'hairType': 'corto',
+    'shirtType': 'corto',
     'pantType': 'largo'
   }
   if (localStorage.datos) {
@@ -304,7 +305,13 @@ function CharaMaker () {
   $('.svg_mustache').css({'fill': chara.svg_mustache})
   $('.svg_eyes').css({'fill': chara.svg_eyes})
   $('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
-  $('.svg_shirt_corto').show()
+  if (chara.shirtType === 'corto') {
+    $('.svg_shirt_corto').show()
+  } else if (chara.shirtType === 'largo') {
+    $('.svg_shirt_largo').show()
+  } else {
+    $('.svg_shirt_tirantes').show()
+  }
   $('.svg_shirt_chaleco').css({'fill': chara.svg_shirt_chaleco})
   $('.svg_shirt_tirantes').css({'fill': chara.svg_shirt_tirantes})
   $('.svg_shirt_rayas').css({'fill': chara.svg_shirt_rayas})
@@ -325,6 +332,7 @@ function CharaMaker () {
 
   $('.elije-color').on('click', function () {
     var parte = $(this).attr('data-parte')
+    console.log(parte)
     CharaColores(parte, chara)
     $('.Chara-opciones .opciones').empty()
     if ($(this).attr('data-tipos')) {
@@ -336,10 +344,11 @@ function CharaMaker () {
 
       $('.opcion').on('click', function () {
         if (parte === 'svg_hair') chara['hairType'] = $(this).attr('data-tipo')
-        else chara['pantType'] = $(this).attr('data-tipo')
+        else if (parte === 'svg_pants') chara['pantType'] = $(this).attr('data-tipo')
+        else chara['shirtType'] = $(this).attr('data-tipo')
 
         if ($(this).attr('data-tipo') === 'falda') $('.elije-color[data-parte="svg_pants"]').text('Falda')
-        if ($(this).attr('data-tipo') === 'corto' || $(this).attr('data-tipo') === 'largo' ) $('.elije-color[data-parte="svg_pants"]').text('Pantalón')
+        if ($(this).attr('data-tipo') === 'corto' || $(this).attr('data-tipo') === 'largo') $('.elije-color[data-parte="svg_pants"]').text('Pantalón')
         $('.' + parte).hide()
         var parteTipo = '.' + parte + '_' + $(this).attr('data-tipo')
 

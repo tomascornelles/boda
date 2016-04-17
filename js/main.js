@@ -287,6 +287,7 @@ function CharaMaker () {
   }
   if (localStorage.datos) {
     var datos = JSON.parse(localStorage.datos)
+    console.log(datos.chara)
     if (datos['chara']) {
       chara = datos.chara
     } else {
@@ -325,10 +326,23 @@ function CharaMaker () {
     $('.svg_pants_largo').show()
   }
   $('.svg_shoes').css({'fill': chara.svg_shoes})
-
-  var et = []
-  et['.svg_hair'] = 'corto'
-  et['.svg_pants'] = 'largo'
+  if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_pelo_falda').css({'fill': 'rgba(0,0,0,.5)'})
+  } else if ((chara.pantType === 'falda') && (chara.hairType !== 'largo')) {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_falda').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_falda').css({'fill': 'rgba(0,0,0,.5)'})
+  } else if ((chara.pantType !== 'falda') && (chara.hairType === 'largo')) {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_pelo').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_pelo').css({'fill': 'rgba(0,0,0,.5)'})
+  } else {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_hombre').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_hombre').css({'fill': 'rgba(0,0,0,.5)'})
+  }
 
   $('.elije-color').on('click', function () {
     var parte = $(this).attr('data-parte')
@@ -353,7 +367,6 @@ function CharaMaker () {
         var parteTipo = '.' + parte + '_' + $(this).attr('data-tipo')
 
         $(parteTipo).show()
-
         if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
           $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
           $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})

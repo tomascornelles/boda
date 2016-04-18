@@ -85,7 +85,8 @@ function InvitadoCargar (Invitado, id) {
       'chara': Invitado.chara
     }
     localStorage.setItem('datos', JSON.stringify(datos))
-    page('/invitado')
+    // page('/invitado')
+    page('/home')
   }
 }
 function InvitadoMostrar () {

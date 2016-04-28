@@ -11,7 +11,7 @@ function consultaConfirmados (e) {
       var res = snap.val()
       // console.log(snap.val())
       resultados.empty().css({'background': 'url(../img/squares.gif) center center no-repeat', 'height': '100vh'})
-      var tabla = '<table style="width:100%"><thead><tr><th>Nombre</th><th>Adultos</th><th>Niños</th><th>Comida</th></tr></thead><tbody>'
+      var tabla = '<table><thead><tr><th>Nombre</th><th>Adultos</th><th>Niños</th><th>Comida</th></tr></thead><tbody>'
       var totales = {
         adultos: 0,
         ninos: 0
@@ -41,7 +41,7 @@ function consultaMensajes (e) {
       var res = snap.val()
       // console.log(snap.val())
       resultados.empty().css({'background': 'url(../img/squares.gif) center center no-repeat', 'height': '100vh'})
-      var tabla = '<table style="width:100%"><thead><tr><th>Nombre</th><th>Mensaje</th></tr></thead><tbody>'
+      var tabla = '<table><thead><tr><th>Nombre</th><th>Mensaje</th></tr></thead><tbody>'
       for (var i in res) {
         var Invitado = res[i]
         if (Invitado.mensaje) {
@@ -63,7 +63,7 @@ function consultaPixelitos (e) {
       var res = snap.val()
       // console.log(snap.val())
       resultados.empty().css({'background': 'url(../img/squares.gif) center center no-repeat', 'height': '100vh'})
-      var tabla = '<table style="width:100%"><thead><tr><th>Nombre</th><th style="width:64px">Pixelito</th></tr></thead><tbody>'
+      var tabla = '<table><thead><tr><th>Nombre</th><th style="width:64px">Pixelito</th></tr></thead><tbody>'
       for (var i in res) {
         var Invitado = res[i]
         if (Invitado.chara) {

@@ -1,4 +1,4 @@
-/* global $ google page Firebase localStorage */
+/* global $ google page Firebase localStorage location */
 
 function initMap () {
   // Create an array of styles.
@@ -85,7 +85,8 @@ function InvitadoCargar (Invitado, id) {
       'chara': Invitado.chara
     }
     localStorage.setItem('datos', JSON.stringify(datos))
-    page('/invitado')
+    // page('/invitado')
+    page('/home')
   }
 }
 function InvitadoMostrar () {
@@ -287,6 +288,7 @@ function CharaMaker () {
   }
   if (localStorage.datos) {
     var datos = JSON.parse(localStorage.datos)
+    console.log(datos.chara)
     if (datos['chara']) {
       chara = datos.chara
     } else {
@@ -305,6 +307,16 @@ function CharaMaker () {
   $('.svg_mustache').css({'fill': chara.svg_mustache})
   $('.svg_eyes').css({'fill': chara.svg_eyes})
   $('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
+<<<<<<< HEAD
+=======
+  if (chara.shirtType === 'corto') {
+    $('.svg_shirt_corto').show()
+  } else if (chara.shirtType === 'largo') {
+    $('.svg_shirt_largo').show()
+  } else {
+    $('.svg_shirt_tirantes').show()
+  }
+>>>>>>> master
   $('.svg_shirt_chaleco').css({'fill': chara.svg_shirt_chaleco})
   $('.svg_shirt_tirantes').css({'fill': chara.svg_shirt_tirantes})
   $('.svg_shirt_rayas').css({'fill': chara.svg_shirt_rayas})
@@ -326,14 +338,35 @@ function CharaMaker () {
     $('.svg_shirt_largo').show()
   }
   $('.svg_shoes').css({'fill': chara.svg_shoes})
+<<<<<<< HEAD
 
   var et = []
   et['.svg_hair'] = 'corto'
   et['.svg_shirt'] = 'corto'
   et['.svg_pants'] = 'largo'
+=======
+  if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_pelo_falda').css({'fill': 'rgba(0,0,0,.5)'})
+  } else if ((chara.pantType === 'falda') && (chara.hairType !== 'largo')) {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_falda').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_falda').css({'fill': 'rgba(0,0,0,.5)'})
+  } else if ((chara.pantType !== 'falda') && (chara.hairType === 'largo')) {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_pelo').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_pelo').css({'fill': 'rgba(0,0,0,.5)'})
+  } else {
+    $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
+    $('.Chara .svg_base.svg_base_hombre').css({'fill': '#000', 'stroke': '#000'})
+    $('.Chara .svg_sombra.svg_base_hombre').css({'fill': 'rgba(0,0,0,.5)'})
+  }
+>>>>>>> master
 
   $('.elije-color').on('click', function () {
     var parte = $(this).attr('data-parte')
+    console.log(parte)
     CharaColores(parte, chara)
     $('.Chara-opciones .opciones').empty()
     if ($(this).attr('data-tipos')) {
@@ -345,16 +378,23 @@ function CharaMaker () {
 
       $('.opcion').on('click', function () {
         if (parte === 'svg_hair') chara['hairType'] = $(this).attr('data-tipo')
+<<<<<<< HEAD
         else if (parte === 'svg_shirt') chara['shirtType'] = $(this).attr('data-tipo')
         else chara['pantType'] = $(this).attr('data-tipo')
 
         if ($(this).attr('data-tipo') === 'falda') $('.elije-color[data-parte="svg_pants"]').text('Falda')
         if (parte === 'svg_pants' && ($(this).attr('data-tipo') === 'corto' || $(this).attr('data-tipo') === 'largo')) $('.elije-color[data-parte="svg_pants"]').text('Pantalón')
+=======
+        else if (parte === 'svg_pants') chara['pantType'] = $(this).attr('data-tipo')
+        else chara['shirtType'] = $(this).attr('data-tipo')
+
+        if ($(this).attr('data-tipo') === 'falda') $('.elije-color[data-parte="svg_pants"]').text('Falda')
+        if ($(this).attr('data-tipo') === 'corto' || $(this).attr('data-tipo') === 'largo') $('.elije-color[data-parte="svg_pants"]').text('Pantalón')
+>>>>>>> master
         $('.' + parte).hide()
         var parteTipo = '.' + parte + '_' + $(this).attr('data-tipo')
 
         $(parteTipo).show()
-
         if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
           $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
           $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})
@@ -497,7 +537,11 @@ $(function () {
   $('.Invitado-confirmar-enviar').on('click', InvitadoConfirmar)
   $('.Musica-input').on('keyup', MusicaBuscar)
 
-  page.base('/boda')
+  if ($(location).attr('hostname') === 'localhost') {
+    page.base('/boda')
+  } else {
+    page.base('')
+  }
   page('/', PaginaHome)
   page('/home', PaginaHome)
   page('/dibuja', PaginaChara)

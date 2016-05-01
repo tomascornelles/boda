@@ -195,7 +195,7 @@ function MusicaPlaylist () {
     for (var i = 0; i < canciones.length; i++) {
       var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
       $.get(url, function (data) {
-        var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + data.id + '" class="Musica-resultado-remove"></a><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + '</h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
+        var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + data.id + '" class="Musica-resultado-remove"></a><div class="Musica-resultado-imagen"><img src="' + data.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + data.name + ' <a href="' + data.preview_url + '" target="_blank" style="text-decoration: none;">▶</a></h4><div class="Musica-resultado-artista">' + data.artists[0].name + '</div><div class="Musica-resultado-album">' + data.album.name + '</div></div>'
         $('.Musica-mis-resultados').append(resultado)
         $('.Musica-resultado-add').on('click', MusicaGuardar)
         $('.Musica-resultado-remove').on('click', MusicaBorrar)
@@ -219,7 +219,7 @@ function MusicaBuscar () {
           clase = 'Musica-resultado-remove'
         }
       }
-      var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + item.id + '" class="' + clase + '"></a><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + '</h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
+      var resultado = '<div class="Musica-resultado u-cf"><a data-cancion="' + item.id + '" class="' + clase + '"></a><div class="Musica-resultado-imagen"><img src="' + item.album.images[0].url + '" alt=""></div><h4 class="Musica-resultado-nombre">' + item.name + ' <a href="' + item.preview_url + '" target="_blank" style="text-decoration: none;">▶</a></h4><div class="Musica-resultado-artista">' + item.artists[0].name + '</div><div class="Musica-resultado-album">' + item.album.name + '</div></div>'
       $('.Musica-resultados').append(resultado)
     }
     $('.Musica-resultado-add').on('click', MusicaGuardar)
@@ -307,6 +307,8 @@ function CharaMaker () {
   $('.svg_mustache').css({'fill': chara.svg_mustache})
   $('.svg_eyes').css({'fill': chara.svg_eyes})
   $('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
+
+
   if (chara.shirtType === 'corto') {
     $('.svg_shirt_corto').show()
   } else if (chara.shirtType === 'largo') {
@@ -314,6 +316,7 @@ function CharaMaker () {
   } else {
     $('.svg_shirt_tirantes').show()
   }
+
   $('.svg_shirt_chaleco').css({'fill': chara.svg_shirt_chaleco})
   $('.svg_shirt_tirantes').css({'fill': chara.svg_shirt_tirantes})
   $('.svg_shirt_rayas').css({'fill': chara.svg_shirt_rayas})
@@ -326,7 +329,16 @@ function CharaMaker () {
   } else {
     $('.svg_pants_largo').show()
   }
+  $('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
+  if (chara.shirtType === 'tirantes') {
+    $('.svg_shirt_tirantes').show()
+  } else if (chara.shirtType === 'corto') {
+    $('.svg_shirt_corto').show()
+  } else {
+    $('.svg_shirt_largo').show()
+  }
   $('.svg_shoes').css({'fill': chara.svg_shoes})
+
   if ((chara.pantType === 'falda') && (chara.hairType === 'largo')) {
     $('.Chara .svg_base, .Chara .svg_sombra').css({'fill': 'transparent', 'stroke': 'transparent'})
     $('.Chara .svg_base.svg_base_pelo_falda').css({'fill': '#000', 'stroke': '#000'})
@@ -393,6 +405,7 @@ function CharaMaker () {
   })
 }
 function CharaColores (parte, chara) {
+  console.log(chara)
   var colores = ['transparent', '#efbe92', '#edb69f', '#c0642e', '#8b391e', '#402420', '#000000', '#ffffff', '#ffefbd', '#ffc500', '#e45214', '#c22b2a', '#ff8ea4', '#693d9f', '#004584', '#007ebe', '#0f8a49', '#5ccf97', '#182c1d', '#ca1146', '#5a0b15', '#67a9bf', '#8e9397']
   $('.Chara-opciones .colores').empty()
   for (var i = 0; i < colores.length; i++) {

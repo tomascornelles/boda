@@ -3,7 +3,7 @@
 var resultados = $('.resultados')
 
 function consultaConfirmados (e) {
-  e.preventDefault()
+  if (e) e.preventDefault()
   new Firebase('https://boda201610.firebaseio.com/')
     .orderByChild('confirmar')
     .equalTo('Confirmado')
@@ -55,6 +55,33 @@ function consultaMensajes (e) {
       resultados.css({'background': '', 'height': ''}).html(tabla)
     })
 }
+
+function consultaCanciones (e) {
+  e.preventDefault()
+  new Firebase('https://boda201610.firebaseio.com/')
+    .orderByChild('canciones')
+    .once('value', function (snap) {
+      var res = snap.val()
+      // console.log(snap.val())
+      resultados.empty().css({'background': 'url(../img/squares.gif) center center no-repeat', 'height': '100vh'})
+      for (var i in res) {
+        var Invitado = res[i]
+        var tabla = '<h4>Canciones: </h4>'
+        if (Invitado.canciones) {
+          var canciones = Invitado.canciones.split(', ')
+          for (var i = 0; i < canciones.length; i++) {
+            var url = 'https://api.spotify.com/v1/tracks/' + canciones[i]
+            $.get(url, function (data) {
+              tabla += '<strong>' + data.name + '</strong> - <a href="' + data.external_urls.spotify + '" target="_blank" style="text-decoration: none;">♫</a> - <a href="' + data.preview_url + '" target="_blank" style="text-decoration: none;">▶</a><br>'
+              resultados.css({'background': '', 'height': ''}).html(tabla)
+            })
+          }
+        }
+      }
+
+    })
+}
+
 function consultaPixelitos (e) {
   e.preventDefault()
   new Firebase('https://boda201610.firebaseio.com/')
@@ -91,7 +118,6 @@ function CharaMaker (chara) {
   miSVG.find('.svg_mustache').css({'fill': chara.svg_mustache})
   miSVG.find('.svg_eyes').css({'fill': chara.svg_eyes})
   miSVG.find('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
-  miSVG.find('.svg_shirt_corto').show()
   miSVG.find('.svg_shirt_chaleco').css({'fill': chara.svg_shirt_chaleco})
   miSVG.find('.svg_shirt_tirantes').css({'fill': chara.svg_shirt_tirantes})
   miSVG.find('.svg_shirt_rayas').css({'fill': chara.svg_shirt_rayas})
@@ -104,13 +130,35 @@ function CharaMaker (chara) {
   } else {
     miSVG.find('.svg_pants_largo').show()
   }
+  miSVG.find('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
+  if (chara.shirtType === 'tirantes') {
+    miSVG.find('.svg_shirt_tirantes').show()
+  } else if (chara.shirtType === 'corto') {
+    miSVG.find('.svg_shirt_corto').show()
+  } else {
+    miSVG.find('.svg_shirt_largo').show()
+  }
   miSVG.find('.svg_shoes').css({'fill': chara.svg_shoes})
-  
+
   return miSVG.html()
 }
 
 $(function () {
+  consultaConfirmados()
+
   $('.confirmados').on('click', consultaConfirmados)
   $('.mensajes').on('click', consultaMensajes)
   $('.pixelitos').on('click', consultaPixelitos)
+  $('.canciones').on('click', consultaCanciones)
+
+  $('.Menu .u-desktop').css({'display': ''})
+  $('.Menu a').show()
+
+  $('.Menu-toggle').on('click', function () {
+    $('.Menu .u-desktop').slideToggle()
+  })
+
+  $(window).on('resize', function () {
+    $('.Menu .u-desktop').css({'display': ''})
+  })
 })

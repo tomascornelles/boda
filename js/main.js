@@ -152,7 +152,7 @@ function Login (ctx) {
       PaginaLogin()
       $('.Login-noPass').fadeIn(500) // Muestra mensaje
     } else { // El parámetro es una llave
-      pass = parseInt(pass)
+      pass = parseInt(pass, 10)
       localStorage.removeItem('datos') // Primero salimos de la sesion anterior
       new Firebase('https://boda201610.firebaseio.com/')
         .orderByChild('pass')
@@ -307,7 +307,6 @@ function CharaMaker () {
   $('.svg_mustache').css({'fill': chara.svg_mustache})
   $('.svg_eyes').css({'fill': chara.svg_eyes})
   $('.svg_shirt').css({'fill': chara.svg_shirt}).hide()
-
 
   if (chara.shirtType === 'corto') {
     $('.svg_shirt_corto').show()
@@ -541,4 +540,3 @@ $(function () {
     hashbang: true
   })
 })
-

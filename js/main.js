@@ -25,7 +25,7 @@ function initMap () {
   // to the map type control.
   var mapOptions = {
     zoom: 16,
-    center: {lat: 41.3890643, lng: 2.167363},
+    center: {lat: 4.7248774, lng: -74.0253252},
     // center: {lat: 41.4382338, lng: 2.1203029},
 
     scrollwheel: false,
@@ -42,9 +42,9 @@ function initMap () {
 
   // Lugares
   var can = {
-    title: 'Hotel Avenida Palace',
-    coords: new google.maps.LatLng(41.3890643, 2.167363),
-    description: '<h4>Hotel Avenida Palace</h4><p><strong>Dirección:</strong><br>Gran Via de Les Corts Catalanes, 605, 08007 Barcelona</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p><p><a href="https://www.google.es/maps/dir//Hotel+Avenida+Palace,+Gran+Via+de+Les+Corts+Catalanes,+605,+08007+Barcelona/@41.3890643,2.1651743,17z/data=!4m13!1m4!3m3!1s0x12a4a2f257ed123f:0xd0526acc9f673041!2sHotel+Avenida+Palace!3b1!4m7!1m0!1m5!1m1!1s0x12a4a2f257ed123f:0xd0526acc9f673041!2m2!1d2.167363!2d41.3890643" target="_blank" class="button u-full-width">¿Como llegar?</a></p>',
+    title: 'Hacienda El Cedro',
+    coords: new google.maps.LatLng(4.7248774, -74.0253252),
+    description: '<h4>Hacienda El Cedro</h4><p><strong>Dirección:</strong><br>Cra. 7 #15021, Bogotá</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p><p><a href="https://www.google.es/maps/place/Museo+Francisco+de+Paula+Santander/@4.7248774,-74.0264195,18z/data=!3m1!4b1!4m5!3m4!1s0x8e3f8ff4b5ec903d:0x50146bab4928ac4d!8m2!3d4.7248774!4d-74.0253252" target="_blank" class="button u-full-width">¿Como llegar?</a></p>',
     icono: 'img/palace64.png'
   }
   var canWindow = new google.maps.InfoWindow({
@@ -522,7 +522,7 @@ $(function () {
   $('.Musica-input').on('keyup', MusicaBuscar)
 
   if ($(location).attr('hostname') === 'localhost') {
-    page.base('/boda')
+    page.base('')
   } else {
     page.base('')
   }

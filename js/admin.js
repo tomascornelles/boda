@@ -63,7 +63,7 @@ function consultaPixelitos (e) {
       var res = snap.val()
       // console.log(snap.val())
       resultados.empty().css({'background': 'url(../img/squares.gif) center center no-repeat', 'height': '100vh'})
-      var tabla = '<table><thead><tr><th>Nombre</th><th style="width:64px">Pixelito</th></tr></thead><tbody>'
+      var tabla = '<table><thead><tr><th>Nombre</th><th style="width:256px">Pixelito</th></tr></thead><tbody>'
       for (var i in res) {
         var Invitado = res[i]
         if (Invitado.chara) {

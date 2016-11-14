@@ -1,6 +1,6 @@
 var gulp = require('gulp')
 var sass = require('gulp-sass')
-// var webserver = require('gulp-webserver')
+var webserver = require('gulp-webserver')
 var concat = require('gulp-concat')
 // var uglify = require('gulp-uglify')
 var minify = require('gulp-minify')
@@ -30,12 +30,12 @@ gulp.task('styles', function () {
 // .pipe(gulp.dest(css_min_src))
 })
 
-// gulp.task('webserver', function() {
-//   gulp.src('app')
-//     .pipe(webserver({
-//       fallback: 'index.html'
-//     }))
-// })
+gulp.task('webserver', function() {
+  gulp.src('./')
+    .pipe(webserver({
+      fallback: 'index.html'
+    }))
+})
 // gulp.task('css', function() {
 //     gulp.src(css_src + '*.css')
 //         .pipe(sourcemaps.init())
@@ -85,4 +85,4 @@ gulp.task('watch', function () {
 // gulp.watch(js_vendor_src + '*.js',['jsvendormin'])
 })
 
-gulp.task('default', ['watch', 'styles'])
+gulp.task('default', ['watch', 'styles', 'webserver'])

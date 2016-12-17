@@ -10,9 +10,9 @@ function initMap () {
       ]
     }, {
       featureType: 'road',
-      elementType: 'all',
+      elementType: 'none',
       stylers: [
-        { lightness: 100 }
+        { lightness: 50 }
       ]
     }
   ]
@@ -44,8 +44,8 @@ function initMap () {
   var can = {
     title: 'Hacienda El Cedro',
     coords: new google.maps.LatLng(4.7248774, -74.0253252),
-    description: '<h4>Hacienda El Cedro</h4><p><strong>Dirección:</strong><br>Cra. 7 #15021, Bogotá</p><p><strong>Horario: </strong><br>Fotos: 19:00h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p><p><a href="https://www.google.es/maps/place/Museo+Francisco+de+Paula+Santander/@4.7248774,-74.0264195,18z/data=!3m1!4b1!4m5!3m4!1s0x8e3f8ff4b5ec903d:0x50146bab4928ac4d!8m2!3d4.7248774!4d-74.0253252" target="_blank" class="button u-full-width">¿Como llegar?</a></p>',
-    icono: 'img/palace64.png'
+    description: '<h4>Hacienda El Cedro</h4><p><strong>Dirección:</strong><br>Cra. 7ª #150 - 21, Bogotá</p><p><strong>Horario: </strong><br>Fotos: 18:30h<br>Ceremonia: 19:30h<br>Recepción: 21:00h</p><p><a href="https://www.google.es/maps/place/Museo+Francisco+de+Paula+Santander/@4.7248774,-74.0264195,18z/data=!3m1!4b1!4m5!3m4!1s0x8e3f8ff4b5ec903d:0x50146bab4928ac4d!8m2!3d4.7248774!4d-74.0253252" target="_blank" class="button u-full-width">¿Como llegar?</a></p>',
+    icono: 'img/cedro64.gif'
   }
   var canWindow = new google.maps.InfoWindow({
     content: can.description
@@ -119,7 +119,7 @@ function InvitadoGuardar (dato) {
   })
   datos[parametro] = valor
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
@@ -127,7 +127,7 @@ function InvitadoMensaje () {
   var datos = JSON.parse(localStorage.datos)
   datos['mensaje'] = $('.Invitado-mensaje-texto').val()
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
@@ -135,7 +135,7 @@ function InvitadoConfirmar () {
   var datos = JSON.parse(localStorage.datos)
   datos['confirmar'] = 'Confirmado'
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
@@ -154,7 +154,7 @@ function Login (ctx) {
     } else { // El parámetro es una llave
       pass = parseInt(pass, 10)
       localStorage.removeItem('datos') // Primero salimos de la sesion anterior
-      new Firebase('https://boda201610.firebaseio.com/')
+      new Firebase('https://boda201702.firebaseio.com/')
         .orderByChild('pass')
         .equalTo(pass)
         .once('value', function (snap) {
@@ -238,7 +238,7 @@ function MusicaGuardar () {
   }
   $('.Musica-volver').slideDown()
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
   $('.Musica-resultado-remove').on('click', MusicaBorrar)
@@ -260,7 +260,7 @@ function MusicaBorrar () {
   }
 
   localStorage.setItem('datos', JSON.stringify(datos))
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
   $('.Musica-resultado-add').on('click', MusicaGuardar)
@@ -288,7 +288,6 @@ function CharaMaker () {
   }
   if (localStorage.datos) {
     var datos = JSON.parse(localStorage.datos)
-    console.log(datos.chara)
     if (datos['chara']) {
       chara = datos.chara
     } else {
@@ -358,7 +357,6 @@ function CharaMaker () {
 
   $('.elije-color').on('click', function () {
     var parte = $(this).attr('data-parte')
-    console.log(parte)
     CharaColores(parte, chara)
     $('.Chara-opciones .opciones').empty()
     if ($(this).attr('data-tipos')) {
@@ -404,7 +402,6 @@ function CharaMaker () {
   })
 }
 function CharaColores (parte, chara) {
-  console.log(chara)
   var colores = ['transparent', '#efbe92', '#edb69f', '#c0642e', '#8b391e', '#402420', '#000000', '#ffffff', '#ffefbd', '#ffc500', '#e45214', '#c22b2a', '#ff8ea4', '#693d9f', '#004584', '#007ebe', '#0f8a49', '#5ccf97', '#182c1d', '#ca1146', '#5a0b15', '#67a9bf', '#8e9397']
   $('.Chara-opciones .colores').empty()
   for (var i = 0; i < colores.length; i++) {
@@ -427,7 +424,7 @@ function CharaColores (parte, chara) {
       var datos = JSON.parse(localStorage.datos)
       datos['chara'] = chara
       localStorage.setItem('datos', JSON.stringify(datos))
-      new Firebase('https://boda201610.firebaseio.com/')
+      new Firebase('https://boda201702.firebaseio.com/')
         .child(datos.id)
         .set(datos)
     }

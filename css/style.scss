@@ -90,6 +90,10 @@ a {
   color: $c-negro;
   text-decoration: none;
 }
+
+.Home .logo {
+  max-width: 50%;
+}
  
 /* Mapa */
 .Mapa .Mapa-mapa {
@@ -381,6 +385,9 @@ select:focus {
 @media (min-width:36em) {
   .Musica-resultado-imagen {
     display: block;
+  }
+  .Home .logo {
+    max-width: inherit;
   }
 }
 

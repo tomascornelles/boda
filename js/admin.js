@@ -1,10 +1,10 @@
-/* global $ google page Firebase localStorage */
+/* global $ Firebase */
 
 var resultados = $('.resultados')
 
 function consultaConfirmados (e) {
   e.preventDefault()
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .orderByChild('confirmar')
     .equalTo('Confirmado')
     .once('value', function (snap) {
@@ -35,7 +35,7 @@ function consultaConfirmados (e) {
 
 function consultaMensajes (e) {
   e.preventDefault()
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .orderByChild('mensaje')
     .once('value', function (snap) {
       var res = snap.val()
@@ -57,7 +57,7 @@ function consultaMensajes (e) {
 }
 function consultaPixelitos (e) {
   e.preventDefault()
-  new Firebase('https://boda201610.firebaseio.com/')
+  new Firebase('https://boda201702.firebaseio.com/')
     .orderByChild('chara')
     .once('value', function (snap) {
       var res = snap.val()
@@ -105,7 +105,7 @@ function CharaMaker (chara) {
     miSVG.find('.svg_pants_largo').show()
   }
   miSVG.find('.svg_shoes').css({'fill': chara.svg_shoes})
-  
+
   return miSVG.html()
 }
 

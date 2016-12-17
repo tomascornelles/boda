@@ -68,7 +68,7 @@ function InvitadoCargar (Invitado, id) {
     datos = {
       'admin': true
     }
-    localStorage.setItem('datos', JSON.stringify(datos))
+    localStorage.setItem('datosC', JSON.stringify(datos))
     page('/admin')
   } else {
     datos = {
@@ -84,13 +84,13 @@ function InvitadoCargar (Invitado, id) {
       'canciones': Invitado.canciones,
       'chara': Invitado.chara
     }
-    localStorage.setItem('datos', JSON.stringify(datos))
+    localStorage.setItem('datosC', JSON.stringify(datos))
     // page('/invitado')
     page('/home')
   }
 }
 function InvitadoMostrar () {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   $('.Invitado-nombre').text(datos['nombre'])
   if (datos['confirmar'] !== undefined) { // Ha confirmado
     $('.Invitado-noConfirma').hide()
@@ -110,7 +110,7 @@ function InvitadoMostrar () {
   }
 }
 function InvitadoGuardar (dato) {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   var parametro = dato.attr('data-parametro')
   var valor = ''
   $('.checked[data-parametro=' + parametro + ']').each(function () {
@@ -118,23 +118,23 @@ function InvitadoGuardar (dato) {
     valor += $(this).text()
   })
   datos[parametro] = valor
-  localStorage.setItem('datos', JSON.stringify(datos))
+  localStorage.setItem('datosC', JSON.stringify(datos))
   new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
 function InvitadoMensaje () {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   datos['mensaje'] = $('.Invitado-mensaje-texto').val()
-  localStorage.setItem('datos', JSON.stringify(datos))
+  localStorage.setItem('datosC', JSON.stringify(datos))
   new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
 }
 function InvitadoConfirmar () {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   datos['confirmar'] = 'Confirmado'
-  localStorage.setItem('datos', JSON.stringify(datos))
+  localStorage.setItem('datosC', JSON.stringify(datos))
   new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
@@ -153,7 +153,7 @@ function Login (ctx) {
       $('.Login-noPass').fadeIn(500) // Muestra mensaje
     } else { // El parámetro es una llave
       pass = parseInt(pass, 10)
-      localStorage.removeItem('datos') // Primero salimos de la sesion anterior
+      localStorage.removeItem('datosC') // Primero salimos de la sesion anterior
       new Firebase('https://boda201702.firebaseio.com/')
         .orderByChild('pass')
         .equalTo(pass)
@@ -169,26 +169,26 @@ function Login (ctx) {
           }
         })
     }
-  } else if (localStorage.datos) { // Ya está definido el usuario
+  } else if (localStorage.datosC) { // Ya está definido el usuario
     PaginaInvitado() // Muestra la página de invitado
   } else {
     PaginaLogin()
   }
 }
 function Logout () {
-  localStorage.removeItem('datos')
+  localStorage.removeItem('datosC')
   $('.checked').removeClass('checked')
   page('/home')
 }
 function LoginCervero (pagina) {
-  if (!localStorage.datos) window.location.href = './'
-  var datos = JSON.parse(localStorage.datos)
+  if (!localStorage.datosC) window.location.href = './'
+  var datos = JSON.parse(localStorage.datosC)
   if (pagina === 'admin' && !datos['admin']) window.location.href = './'
 }
 
 /* Musica */
 function MusicaPlaylist () {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   if (datos.canciones) {
     $('.Musica-mis-resultados').empty()
     var canciones = datos.canciones.split(', ')
@@ -212,7 +212,7 @@ function MusicaBuscar () {
     $('.Musica-resultados').empty()
     for (var i = 0; i < data.tracks.items.length; i++) {
       var item = data.tracks.items[i]
-      var datos = JSON.parse(localStorage.datos)
+      var datos = JSON.parse(localStorage.datosC)
       var clase = 'Musica-resultado-add'
       if (datos.canciones) {
         if (datos.canciones.indexOf(item.id) !== -1) {
@@ -227,7 +227,7 @@ function MusicaBuscar () {
   })
 }
 function MusicaGuardar () {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   var parametro = 'canciones'
   var valor = $(this).attr('data-cancion')
   $(this).addClass('Musica-resultado-remove').removeClass('Musica-resultado-add')
@@ -237,14 +237,14 @@ function MusicaGuardar () {
     datos[parametro] = valor
   }
   $('.Musica-volver').slideDown()
-  localStorage.setItem('datos', JSON.stringify(datos))
+  localStorage.setItem('datosC', JSON.stringify(datos))
   new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
   $('.Musica-resultado-remove').on('click', MusicaBorrar)
 }
 function MusicaBorrar () {
-  var datos = JSON.parse(localStorage.datos)
+  var datos = JSON.parse(localStorage.datosC)
   var parametro = 'canciones'
   var valor = $(this).attr('data-cancion')
   // $(this).closest('.Musica-resultado').remove()
@@ -259,7 +259,7 @@ function MusicaBorrar () {
     }
   }
 
-  localStorage.setItem('datos', JSON.stringify(datos))
+  localStorage.setItem('datosC', JSON.stringify(datos))
   new Firebase('https://boda201702.firebaseio.com/')
     .child(datos.id)
     .set(datos)
@@ -286,8 +286,8 @@ function CharaMaker () {
     'shirtType': 'corto',
     'pantType': 'largo'
   }
-  if (localStorage.datos) {
-    var datos = JSON.parse(localStorage.datos)
+  if (localStorage.datosC) {
+    var datos = JSON.parse(localStorage.datosC)
     if (datos['chara']) {
       chara = datos.chara
     } else {
@@ -420,10 +420,10 @@ function CharaColores (parte, chara) {
     $('.Chara .partes').fadeIn()
     chara[parte] = $(this).attr('data-color')
 
-    if (localStorage.datos) {
-      var datos = JSON.parse(localStorage.datos)
+    if (localStorage.datosC) {
+      var datos = JSON.parse(localStorage.datosC)
       datos['chara'] = chara
-      localStorage.setItem('datos', JSON.stringify(datos))
+      localStorage.setItem('datosC', JSON.stringify(datos))
       new Firebase('https://boda201702.firebaseio.com/')
         .child(datos.id)
         .set(datos)
@@ -456,7 +456,7 @@ function PaginaLimpia () {
   $('.Menu .u-desktop').css({'display': ''})
 
   $('.Menu a').show()
-  if (!localStorage.datos) $('.cervero').hide()
+  if (!localStorage.datosC) $('.cervero').hide()
 
   $('.Invitado--cargando').show()
   $('.Invitado-contenido-botones').show()

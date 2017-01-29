@@ -11,7 +11,7 @@ function consultaConfirmados(e) {
             var res = snap.val()
                 // console.log(snap.val())
             resultados.empty().css({ 'background': 'url(../img/squares.gif) center center no-repeat', 'height': '100vh' })
-            var tabla = '<table><thead><tr><th>Nombre</th><th>Adultos</th><th>Niños</th><th>Comida</th></tr></thead><tbody>'
+            var tabla = '<table><thead><tr><th>Nombre</th><th>Adultos</th><th>Comida</th></tr></thead><tbody>'
             var totales = {
                 adultos: 0,
                 ninos: 0
@@ -24,9 +24,9 @@ function consultaConfirmados(e) {
                 var ninos = (Invitado.ninos) ? Invitado.ninos : 0
                 totales.ninos += parseInt(ninos)
                 var comida = (Invitado.comida) ? Invitado.comida : ''
-                tabla += '<tr><th>' + nombre + '</th><td>' + adultos + '</td><td>' + ninos + '</td><td>' + comida + '</td></tr>'
+                tabla += '<tr><th>' + nombre + '</th><td>' + adultos + '</td><td>' + comida + '</td></tr>'
             }
-            tabla += '<tr><th>Total</th><th>' + totales.adultos + '</th><th>' + totales.ninos + '</th><td></td></tr>'
+            tabla += '<tr><th>Total</th><th>' + totales.adultos + '</th><td></td></tr>'
             tabla += '</tbody></table>'
 
             resultados.css({ 'background': '', 'height': '' }).html(tabla)
